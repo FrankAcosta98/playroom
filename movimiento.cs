@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class movimiento : MonoBehaviour
 {
-    public float velocidad=5f;
+    public float velocidad;
     public Rigidbody2D rb;
     //public Animator animator;
     Vector2 mvmt;

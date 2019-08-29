@@ -36,6 +36,12 @@ public class movimiento : MonoBehaviour
         }else{
             vel=velocidad;
         }
+        //le agrege este if (el de abajo) pero no lo he probado si te da problemas quitalo junto con su else  -Dios
+        if (Input.GetAxisRaw("Horizontal")&&(Input.GetAxisRaw("Vertical"))){
+            vel=velocidad/2;
+        }else{
+            vel=velocidad;
+        }
         rb.MovePosition(rb.position + mvmt * vel * Time.fixedDeltaTime);
     }
 }

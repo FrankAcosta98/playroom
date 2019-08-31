@@ -37,7 +37,7 @@ public class movimiento : MonoBehaviour
             vel=velocidad;
         }
         //le agrege este if (el de abajo) pero no lo he probado si te da problemas quitalo junto con su else  -Dios
-        if (Input.GetAxisRaw("Horizontal")&&(Input.GetAxisRaw("Vertical"))){
+        if (Input.GetAxisRaw("Horizontal")!=0.0f&&(Input.GetAxisRaw("Vertical"))!=0.0f){
             vel=velocidad/2;
         }else{
             vel=velocidad;

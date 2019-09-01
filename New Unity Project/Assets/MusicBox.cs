@@ -21,11 +21,11 @@ public class MusicBox : MonoBehaviour
         if (pickUpAllowed && Input.GetKeyDown(KeyCode.E)&&(grabbed==false)){
             PickUp();
         }
+        else if (grabbed && Input.GetKeyDown(KeyCode.E)){
+            Throw();
+        }
         if(grabbed){
             this.transform.position=GameObject.Find("Lucy").transform.position;
-        }
-        if (grabbed && Input.GetKeyDown(KeyCode.E)){
-            Throw();
         }
     }
 

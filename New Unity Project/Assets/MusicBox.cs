@@ -12,6 +12,9 @@ public class MusicBox : MonoBehaviour
     public Collider2D hitbox;
     public Collider2D AoE;
     public float throwforce;
+    public float charge;
+    private float charging;
+    private bool charged=false;
     void Start(){
         grabbed=false;
     }
@@ -21,11 +24,18 @@ public class MusicBox : MonoBehaviour
         if (pickUpAllowed && Input.GetKeyDown(KeyCode.E)&&(grabbed==false)){
             PickUp();
         }
-        else if (grabbed && Input.GetKeyDown(KeyCode.E)){
+        else if (grabbed && Input.GetKeyDown(KeyCode.E)&&charged){
             Throw();
         }
         if(grabbed){
             this.transform.position=GameObject.Find("Lucy").transform.position;
+        }
+        if (Input.GetKeyDown(KeyCode.Q)){
+            charging+=Time.deltaTime;
+            Debug.Log(charging);
+        }
+        if (charging>=charge){
+            charged=true;
         }
     }
 

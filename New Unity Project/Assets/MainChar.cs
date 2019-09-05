@@ -15,6 +15,8 @@ public class MainChar : MonoBehaviour
     public float coolDown;
     private float vel;
     private float cdTime;
+
+    public bool hasKey;
     //public float OffsetColider=2.0f;
     //public float Reach = 2.1f;
     void Start()

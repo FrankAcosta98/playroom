@@ -17,6 +17,7 @@ public class Llave : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.E) && usable == true)
         {
             MainChar.instace.gameObject.GetComponent<MainChar>().hasKey = true;
+            Destroy(gameObject);
         }
     }
 
@@ -25,8 +26,19 @@ public class Llave : MonoBehaviour
         if (other.gameObject.name.Equals("Lucy")  /* Agregar Raycast*/)
         {
             usable = true;
+           
         }
     }
+
+    void OnTriggerExit2D(Collider2D other)
+    {
+        if (other.gameObject.name.Equals("Lucy")  /* Agregar Raycast*/)
+        {
+            usable = false;
+
+        }
+    }
+
 
     // OntriggerExit Falso
 }

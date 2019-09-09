@@ -29,5 +29,14 @@ public class Lock : MonoBehaviour
         }
     }
 
+    void OnTriggerExit2D(Collider2D other)
+    {
+        if (other.gameObject.name.Equals("Lucy")  /* Agregar Raycast*/)
+        {
+            block = true;
+
+        }
+    }
+
     // OntriggerExit Falso
 }

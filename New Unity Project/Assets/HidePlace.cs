@@ -21,17 +21,15 @@ public class HidePlace : MonoBehaviour
         if (hiding == true && Input.GetKeyDown(KeyCode.E))
         {
             MainChar.instace.GetComponent<Collider2D>().enabled = false;
-           // MainChar.instace.gameObject.SetActive(false);
             MainChar.instace.GetComponent<SpriteRenderer>().enabled = false;
             hided = true;
-            
-        }
-        
 
-        else if ((Input.GetAxisRaw("Horizontal") > 0 || Input.GetAxisRaw("Vertical") > 0) && hided == true)
+        }
+
+
+        else if ((Input.GetAxisRaw("Horizontal") != 0 || Input.GetAxisRaw("Vertical") != 0) && hided == true)
         {
             MainChar.instace.GetComponent<Collider2D>().enabled = true;
-           // MainChar.instace.gameObject.SetActive(true);
             MainChar.instace.GetComponent<SpriteRenderer>().enabled = true;
         }
     }
@@ -43,6 +41,15 @@ public class HidePlace : MonoBehaviour
         {
             hiding = true;
             
+        }
+    }
+
+    void OnTriggerExit2D(Collider2D other)
+    {
+        if (other.gameObject.name.Equals("Lucy")  /* Agregar Raycast*/)
+        {
+            hiding = false;
+            hided = false;
         }
     }
 }

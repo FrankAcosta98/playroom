@@ -10,11 +10,13 @@ public class BossPatern : MonoBehaviour {
     private float wait;
     private int randomSpot;
 
+
     // Use this for initialization
-    void Start () {
-        wait = cooldown;  
+    void Start()
+    {
+        wait = cooldown;
         randomSpot = Random.Range(0, moveSpots.Length);
-	}
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -33,4 +35,14 @@ public class BossPatern : MonoBehaviour {
             }
         }
 	}
+
+    /*
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.gameObject.name.Equals("Lucy"))
+        {
+            Destroy(other.gameObject);
+        }
+    }
+    */
 }

@@ -13,6 +13,7 @@ public class MusicBox : MonoBehaviour
     public Collider2D AoE;
     public float throwforce;
     public float charge;
+    public float batery;
     private float charging;
     private bool charged=false;
     void Start(){
@@ -37,6 +38,10 @@ public class MusicBox : MonoBehaviour
         if (charging>=charge){
             charged=true;
         }
+        if (transform.tag=="detectable")
+            batery-=Time.deltaTime;
+        if (batery<=0)
+            Destroy(this);
     }
 
     private void OnTriggerEnter2D(Collider2D collision){
@@ -56,6 +61,9 @@ public class MusicBox : MonoBehaviour
     }
     private void Throw(){
         grabbed=false;
+        pickUpAllowed=false;
+        hitbox.enabled=true;
         this.transform.position=GameObject.Find("Lucy").transform.position*throwforce;
+        transform.gameObject.tag = "detectable";
     }
 }

@@ -23,6 +23,7 @@ public class HidePlace : MonoBehaviour
             MainChar.instace.GetComponent<Collider2D>().enabled = false;
             MainChar.instace.GetComponent<SpriteRenderer>().enabled = false;
             hided = true;
+            MainChar.instace.transform.gameObject.tag = "hided";
         }
 
 

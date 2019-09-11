@@ -18,6 +18,7 @@ public class MainChar : MonoBehaviour
     private float vel;
     private float cdTime;
     public bool hasKey = false;
+    
     //public float OffsetColider=2.0f;
     //public float Reach = 2.1f;
     void Start()
@@ -26,6 +27,7 @@ public class MainChar : MonoBehaviour
         //anim=this.GetComponent<Animator>();
         rb = this.GetComponent<Rigidbody2D>();
         rb.constraints = RigidbodyConstraints2D.FreezeRotation;
+        transform.gameObject.tag = "detectable";
     }
     void Update()
     {

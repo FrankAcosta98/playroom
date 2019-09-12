@@ -36,7 +36,7 @@ public class BossPatern : MonoBehaviour {
         }
 	}
 
-    /*
+    
     void OnTriggerEnter2D(Collider2D other)
     {
         if (other.gameObject.name.Equals("Lucy"))
@@ -44,5 +44,5 @@ public class BossPatern : MonoBehaviour {
             Destroy(other.gameObject);
         }
     }
-    */
+    
 }

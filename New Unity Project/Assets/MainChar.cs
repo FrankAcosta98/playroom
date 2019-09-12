@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,6 +7,8 @@ public class MainChar : MonoBehaviour
 {
     public static MainChar instace;
 
+    public Collider2D HitBox;
+    public Collider2D InterZone;
     public float velocidad;
     public Rigidbody2D rb;
     //public Animator anim;
@@ -18,7 +21,7 @@ public class MainChar : MonoBehaviour
     private float vel;
     private float cdTime;
     public bool hasKey = false;
-    
+
     //public float OffsetColider=2.0f;
     //public float Reach = 2.1f;
     void Start()
@@ -62,7 +65,7 @@ public class MainChar : MonoBehaviour
         rb.MovePosition(rb.position + mvmt.normalized * vel * Time.fixedDeltaTime);
     }
 
-    
+
     /* ray-cast para saber si esta volteando si sirve pero falta el animator bien echo -Dios
     
         public RaycastHit2D CheckRaycast(Vector2 dir)

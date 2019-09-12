@@ -10,10 +10,10 @@ public class Boss1 : MonoBehaviour
     [SerializeField]
     public float speed;
     public float cooldown;
-    private int Cpoint=0;
+    private int Cpoint = 0;
     private float wait;
-    private bool hmm=false;
-    private bool chilling=false;
+    private bool hmm = false;
+    private bool chilling = false;
     public float chill;
     private float chillLevel;
     public Collider2D CdV;
@@ -25,7 +25,7 @@ public class Boss1 : MonoBehaviour
         transform.position = points[Cpoint].transform.position;
         rb = this.GetComponent<Rigidbody2D>();
         rb.constraints = RigidbodyConstraints2D.FreezeRotation;
-        chillLevel=chill;
+        chillLevel = chill;
     }
     void Update()
     {
@@ -33,23 +33,28 @@ public class Boss1 : MonoBehaviour
             Hunt();
         else
             Move();
-        if(chillLevel<=0)
-            hmm=false;
-        if(chilling){
-            chillLevel-=Time.deltaTime;
+        if (chillLevel <= 0)
+            hmm = false;
+        if (chilling)
+        {
+            chillLevel -= Time.deltaTime;
         }
     }
-    private void Move(){
+    private void Move()
+    {
         transform.position = Vector2.MoveTowards(transform.position, points[Cpoint].position, speed * Time.deltaTime);
 
         if (Vector2.Distance(transform.position, points[Cpoint].position) < 0.2f)
         {
             if (wait <= 0)
             {
-                if(Cpoint+1==points.Length){
-                    Cpoint=0;
-                }else{
-                    Cpoint +=1;
+                if (Cpoint + 1 == points.Length)
+                {
+                    Cpoint = 0;
+                }
+                else
+                {
+                    Cpoint += 1;
                 }
                 wait = cooldown;
             }
@@ -59,18 +64,28 @@ public class Boss1 : MonoBehaviour
             }
         }
     }
-    private void OnTriggerEnter2D(Collider2D prey) {
-        if (prey.gameObject.transform.tag=="detectable"){
-            hmm=true;
-            prey.gameObject.GetComponent<Transform>().tag="Focus";
-            chillLevel=chill;
+    private void OnTriggerEnter2D(Collider2D prey)
+    {
+        if (prey.gameObject.transform.tag == "detectable" && prey.GetType() == typeof(CircleCollider2D))
+        {
+            hmm = true;
+            //prey.gameObject.GetComponent<Transform>().tag = "detectable";
+            chillLevel = chill;
             Debug.Log(prey.gameObject.transform.tag);
         }
+
+        if (prey.gameObject.transform.tag == "detectable" && prey.GetType() == typeof(BoxCollider2D))
+        {
+            Debug.Log("Ya te cargo el payaso");
+            Destroy(prey.gameObject);
+        }
     }
-    private void OnTriggerExit2D(Collider2D prey) {
-        chilling=true;
+    private void OnTriggerExit2D(Collider2D prey)
+    {
+        chilling = true;
     }
-    private void Hunt(){
-        transform.position=Vector2.MoveTowards(transform.position,GameObject.FindGameObjectWithTag("Focus").transform.position,speed*Time.deltaTime);
+    private void Hunt()
+    {
+        transform.position = Vector2.MoveTowards(transform.position, GameObject.FindGameObjectWithTag("detectable").transform.position, speed * Time.deltaTime);
     }
 }

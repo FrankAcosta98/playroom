@@ -20,16 +20,17 @@ public class HidePlace : MonoBehaviour
         // Mientras el jugador este escondido no se mueve hasta volver a oprimir el boton
         if (hiding == true && Input.GetKeyDown(KeyCode.E))
         {
-            MainChar.instace.GetComponent<Collider2D>().enabled = false;
+            MainChar.instace.GetComponent<BoxCollider2D>().enabled = false;
+            MainChar.instace.GetComponent<CircleCollider2D>().enabled = false;
             MainChar.instace.GetComponent<SpriteRenderer>().enabled = false;
             hided = true;
-            MainChar.instace.transform.gameObject.tag = "hided";
         }
 
 
         else if ((Input.GetAxisRaw("Horizontal") != 0 || Input.GetAxisRaw("Vertical") != 0) && hided == true)
         {
-            MainChar.instace.GetComponent<Collider2D>().enabled = true;
+            MainChar.instace.GetComponent<BoxCollider2D>().enabled = true;
+            MainChar.instace.GetComponent<CircleCollider2D>().enabled = true;
             MainChar.instace.GetComponent<SpriteRenderer>().enabled = true;
         }
     }

@@ -23,7 +23,7 @@ public class Lock : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.gameObject.name.Equals("Lucy") && other.gameObject.GetComponent<MainChar>().hasKey == true)
+        if (other.gameObject.name.Equals("Lucy") && MainChar.instace.gameObject.GetComponent<MainChar>().hasKey == true)
         {
             block = false;
         }

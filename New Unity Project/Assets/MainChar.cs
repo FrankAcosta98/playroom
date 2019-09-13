@@ -2,11 +2,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class MainChar : MonoBehaviour
 {
     public static MainChar instace;
-
+    private SavedFiles Save;
     public Collider2D HitBox;
     public Collider2D InterZone;
     public float velocidad;
@@ -26,6 +27,8 @@ public class MainChar : MonoBehaviour
     //public float Reach = 2.1f;
     void Start()
     {
+        Save = GameObject.FindGameObjectWithTag("Save").GetComponent<SavedFiles>();
+        transform.position = Save.lastCheckPoint;
         instace = this;
         //anim=this.GetComponent<Animator>();
         rb = this.GetComponent<Rigidbody2D>();
@@ -39,6 +42,11 @@ public class MainChar : MonoBehaviour
         anim.SetFloat("Vertical",mvmt.y);
         */
         mvmt.Set(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
+
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        }
 
     }
     void FixedUpdate()

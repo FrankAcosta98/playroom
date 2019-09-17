@@ -35,6 +35,7 @@ public class Boss1 : MonoBehaviour
             Move();
         if (chillLevel <= 0)
             hmm = false;
+            GameObject.FindGameObjectWithTag("Focus").tag = "detectable";
         if (chilling)
         {
             chillLevel -= Time.deltaTime;
@@ -69,12 +70,12 @@ public class Boss1 : MonoBehaviour
         if (prey.gameObject.transform.tag == "detectable" && prey.GetType() == typeof(CircleCollider2D))
         {
             hmm = true;
-            //prey.gameObject.GetComponent<Transform>().tag = "detectable";
+            prey.gameObject.tag = "detectable";
             chillLevel = chill;
             Debug.Log(prey.gameObject.transform.tag);
         }
 
-        if (prey.gameObject.transform.tag == "detectable" && prey.GetType() == typeof(BoxCollider2D))
+        if (prey.gameObject.transform.tag == "Focus" && prey.GetType() == typeof(BoxCollider2D))
         {
             Debug.Log("Ya te cargo el payaso");
             Destroy(prey.gameObject);
@@ -86,6 +87,6 @@ public class Boss1 : MonoBehaviour
     }
     private void Hunt()
     {
-        transform.position = Vector2.MoveTowards(transform.position, GameObject.FindGameObjectWithTag("detectable").transform.position, speed * Time.deltaTime);
+        transform.position = Vector2.MoveTowards(transform.position, GameObject.FindGameObjectWithTag("Focus").transform.position, speed * Time.deltaTime);
     }
 }

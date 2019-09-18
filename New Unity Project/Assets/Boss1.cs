@@ -70,7 +70,7 @@ public class Boss1 : MonoBehaviour
         if (prey.gameObject.transform.tag == "detectable" && prey.GetType() == typeof(CircleCollider2D))
         {
             hmm = true;
-            prey.gameObject.tag = "detectable";
+            prey.gameObject.tag = "Focus";
             chillLevel = chill;
             Debug.Log(prey.gameObject.transform.tag);
         }

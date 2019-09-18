@@ -21,12 +21,10 @@ public class FBoss : MonoBehaviour
     private int fase;
     public Collider2D CdV;
     public Rigidbody2D rb;
-    private Vector2 area;
     
     void Start(){
         wait = cooldown;
         transform.position = points[Cpoint].transform.position;
-        area=points[Cpoint].transform.position;
         rb = this.GetComponent<Rigidbody2D>();
         rb.constraints = RigidbodyConstraints2D.FreezeRotation;
         chillLevel = chill;
@@ -50,6 +48,8 @@ void Update()
     }
     private void Puch(){
         //lights out
+        //https://www.youtube.com/watch?v=kTvBRkPTvRY
+        //https://www.youtube.com/watch?v=tdSmKaJvCoA
         transform.position = points[Cpoint].transform.position;
         switch (fase) 
         {
@@ -61,7 +61,6 @@ void Update()
             }break;
             case 3:{// 6 cajas random la primeera es usable y ultima llave
                 GameObject[] boxes = new GameObject[6];
-                boxes[6]=
             fase=1; //para que de 2 osea la ultima fase se repite
             }break;
         }

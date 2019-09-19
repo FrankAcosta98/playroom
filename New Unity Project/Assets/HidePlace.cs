@@ -5,7 +5,7 @@ using UnityEngine;
 public class HidePlace : MonoBehaviour
 {
     private bool hiding = false;
-    public bool hided = false;
+    private bool hided = false;
 
     // Use this for initialization
     void Start()
@@ -27,7 +27,7 @@ public class HidePlace : MonoBehaviour
         }
 
 
-        else if ((Input.GetAxisRaw("Horizontal") != 0 || Input.GetAxisRaw("Vertical") != 0) && hided == true)
+        else if (Input.GetKeyDown(KeyCode.E) && hided == true)
         {
             MainChar.instace.GetComponent<BoxCollider2D>().enabled = true;
             MainChar.instace.GetComponent<CircleCollider2D>().enabled = true;

@@ -26,7 +26,6 @@ public class Llave : MonoBehaviour
         if (other.gameObject.name.Equals("Lucy")  /* Agregar Raycast*/)
         {
             usable = true;
-           
         }
     }
 

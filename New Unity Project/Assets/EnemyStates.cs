@@ -25,7 +25,6 @@ public class EnemyStates : MonoBehaviour
     {
         if (target != null)
         {
-           
             transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(target.transform.position - transform.position), rotationSpeed * Time.deltaTime);
             
             transform.position += transform.forward * Time.deltaTime * moveSpeed;

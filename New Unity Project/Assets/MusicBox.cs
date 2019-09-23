@@ -6,7 +6,7 @@ using UnityEngine;
 public class MusicBox : MonoBehaviour
 {
     private bool pickUpAllowed;
-    private bool grabbed;
+    public bool grabbed;
     public float distance=2f;
     public Collider2D grab;
     public Collider2D hitbox;

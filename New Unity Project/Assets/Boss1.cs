@@ -16,7 +16,6 @@ public class Boss1 : MonoBehaviour
     private bool chilling = false;
     public float chill;
     private float chillLevel;
-    public Collider2D CdV;
     public Rigidbody2D rb;
 
     void Start()
@@ -35,7 +34,7 @@ public class Boss1 : MonoBehaviour
             Move();
         if (chillLevel <= 0)
             hmm = false;
-            GameObject.FindGameObjectWithTag("Focus").tag = "detectable";
+            //GameObject.FindGameObjectWithTag("Focus").tag = "detectable";
         if (chilling)
         {
             chillLevel -= Time.deltaTime;
@@ -72,13 +71,12 @@ public class Boss1 : MonoBehaviour
             hmm = true;
             prey.gameObject.tag = "Focus";
             chillLevel = chill;
-            Debug.Log(prey.gameObject.transform.tag);
         }
 
-        if (prey.gameObject.transform.tag == "Focus" && prey.GetType() == typeof(BoxCollider2D))
+        if (prey.gameObject.transform.tag == "Focus" && this.GetType() == typeof(BoxCollider2D))
         {
             Debug.Log("Ya te cargo el payaso");
-            Destroy(prey.gameObject);
+            //Destroy(prey.gameObject);
         }
     }
     private void OnTriggerExit2D(Collider2D prey)

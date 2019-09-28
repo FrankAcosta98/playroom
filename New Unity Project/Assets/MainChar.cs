@@ -24,9 +24,12 @@ public class MainChar : MonoBehaviour
     private bool hasBox=false;
     private bool hasTed=false;
     private bool isMov=false;
+    private bool isDown;
+    private bool isUp; 
 
     void Start()
     {
+        isUp = false;
         Save = GameObject.FindGameObjectWithTag("Save").GetComponent<SavedFiles>();
         transform.position = Save.lastCheckPoint;
         instace = this;
@@ -37,6 +40,7 @@ public class MainChar : MonoBehaviour
     }
     void Update()
     {
+        
         mvmt.Set(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
         if (mvmt.x!=0||mvmt.y!=0)
             isMov=true;
@@ -48,16 +52,31 @@ public class MainChar : MonoBehaviour
             hasTed=true;
         if(GameObject.Find("Box").GetComponent<MusicBox>().grabbed==true)
             hasBox=true;
+        if(Input.GetAxisRaw("Horizontal") != 0 && Input.GetAxisRaw("Vertical") > 0){
+            isUp = true;
+            anim.SetFloat("Hor",0.0f);
+        } else 
+            isUp = false;
+        if(Input.GetAxisRaw("Horizontal") != 0 && Input.GetAxisRaw("Vertical") < 0){
+            isDown = true;
+            anim.SetFloat("Ver",0.0f);
+        } else 
+            isDown = false;
     }
     void FixedUpdate()
     {
-        anim.SetFloat("Hor",mvmt.x);
+
+        if(isDown==false)
         anim.SetFloat("Ver",mvmt.y);
+        if(isUp == false)
+            anim.SetFloat("Hor",mvmt.x);
+        
         anim.SetFloat("Spd",mvmt.sqrMagnitude);
         anim.SetBool("hasTed",hasTed);
         anim.SetBool("hasBox",hasBox);
         anim.SetBool("isMov",isMov);
-        RaycastCheckUpdate();
+        if (Input.GetKeyDown(KeyCode.E))
+            RaycastCheckUpdate();
         if (Input.GetKeyDown(KeyCode.Space) && Time.time > cdTime)
         {
             if (dashTime <= 0)

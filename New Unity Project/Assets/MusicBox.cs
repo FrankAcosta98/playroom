@@ -31,7 +31,7 @@ public class MusicBox : MonoBehaviour
         if(grabbed){
             this.transform.position=GameObject.Find("Lucy").transform.position;
         }
-        if (Input.GetKeyDown(KeyCode.Q)){
+        if (Input.GetKeyDown(KeyCode.Q)&&grabbed){
             charging+=Time.deltaTime;
             Debug.Log(charging);
         }
@@ -57,12 +57,13 @@ public class MusicBox : MonoBehaviour
     private void PickUp(){
         grabbed=true;
         hitbox.enabled=false;
-        Debug.Log("grabbed");
+        this.gameObject.GetComponent<SpriteRenderer>().enabled=false;
     }
     private void Throw(){
         grabbed=false;
         pickUpAllowed=false;
         hitbox.enabled=true;
+        this.gameObject.GetComponent<SpriteRenderer>().enabled=false;
         this.transform.position=GameObject.Find("Lucy").transform.position*throwforce;
         transform.gameObject.tag = "detectable";
     }

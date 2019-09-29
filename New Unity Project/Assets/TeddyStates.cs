@@ -7,18 +7,18 @@ public class TeddyStates : MonoBehaviour
 
     CircleCollider2D col;
     public float sizeRad;
-    bool IsLightOn;
-    bool Holded;
+    bool IsLightOn=false;
+    bool Holded=false;
     public float RadMultWithLight = 0.2f;
+    public float VelocidadLenta=1.98f;
     public float RadMultWithHold = 0.5f;
+    private float tmpv;
     void Start()
     {
         //col = GetComponent<CircleCollider2D>();
         col = GetComponent<CircleCollider2D>();
         col.radius = sizeRad;
-
-        IsLightOn = false;
-        Holded = false;
+        tmpv=this.GetComponentInParent<MainChar>().velocidad;
     }
 
     // Update is called once per frame
@@ -42,12 +42,16 @@ public class TeddyStates : MonoBehaviour
             col.radius = RadMultWithHold;
             Debug.Log("Luz elevada");
             Holded = true;
+            this.GetComponentInParent<MainChar>().velocidad=VelocidadLenta;
+            this.GetComponentInParent<Animator>().SetBool("High",true);
         }
         else if (Input.GetKeyUp(KeyCode.LeftShift) && Holded == true)
         {
             col.radius = RadMultWithLight;
             Debug.Log("Luz normal");
             Holded = false;
+            this.GetComponentInParent<Animator>().SetBool("High",false);
+            this.GetComponentInParent<MainChar>().velocidad=tmpv;
         }
     }
 }

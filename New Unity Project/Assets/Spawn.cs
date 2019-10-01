@@ -5,9 +5,9 @@ using UnityEngine;
 
 public class Spawn : MonoBehaviour
 {
-    public GameObject spawn;
-    public float spawnRate;
-    public float nextSpawn;
+    public GameObject key;
+    public GameObject box;
+    public float spawnCapacity;
     List<Vector2> usedValues = new List<Vector2>();
     public Collider2D collider;
     Vector2 position;
@@ -15,21 +15,24 @@ public class Spawn : MonoBehaviour
 
     private void Start()
     {
-
+        
     }
 
     void Update()
     {
-        if (Time.time > nextSpawn)
+        if (usedValues.Count < spawnCapacity)
         {
-            nextSpawn = Time.time + spawnRate;
-            Instantiate(spawn, RandomPosition(), Quaternion.identity);
+            Instantiate(box, RandomPosition(), Quaternion.identity);
         }
+        else if(usedValues.Count == spawnCapacity)
+        {
+            Instantiate(key, RandomPosition(), Quaternion.identity);
+        }
+
     }
 
     private Vector2 RandomPosition()
     {
-        
         while (usedValues.Contains(position)){
             position.Set(Random.Range(collider.bounds.min.x, collider.bounds.max.x), Random.Range(collider.bounds.min.y, collider.bounds.max.y));
         }

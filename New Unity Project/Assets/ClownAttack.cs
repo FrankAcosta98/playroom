@@ -9,24 +9,15 @@ public class ClownAttack : MonoBehaviour
 {
     //For Attack Routine
     BoxCollider2D boxCol;
-    public int secondsToAttack, secondsToReach, secondsToStay, secondsToBack;
-    private float t1, t2;
+    public int secondsToAttack, secondsToStay;
+    public float vel1, vel2;
     public GameObject target = null;
     private Rigidbody2D rb;
-    private Vector3 tarPos;
-    private Vector3 oriPos;
-    public bool attacking;
+    private Vector2 tarPos;
+    private Vector2 oriPos;
+    public bool attacking, moveToTarget, firstTimePassed, secondTimePassed;
     CircleCollider2D kill;
 
-    //For Collider Size
-
-    public float finalSize = 1.5f;
-    public float increaseSpeed = 1;
-    //private BoxCollider2D colli;
-    private Vector2 iniSize;
-    public Vector2 currentSize;
-    public Vector2 maxSize;
-    // Start is called before the first frame update
     void Start()
     {
         //For Attack Routine
@@ -34,122 +25,94 @@ public class ClownAttack : MonoBehaviour
         boxCol = GetComponent<BoxCollider2D>();
         oriPos = transform.position;
         attacking = false;
-
-        //For Collider Size
-        //colli = GetComponent<BoxCollider2D>();
-        iniSize = boxCol.size;
-        currentSize = iniSize;
-
-        maxSize = new Vector2(finalSize, finalSize);
-
+        moveToTarget = false;
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
-        //For Attack Routine
-        t1 += Time.deltaTime / secondsToReach;
-        t2 += Time.deltaTime / secondsToBack;
-
-
-        //For Collider Size
-        if (attacking == false)
+        if (attacking == true)
         {
-            GrowCollider();
-
-        } else if (attacking == true)
-        {
-            ReduceCollider();
-        }
-
-    }
-
-    private void ReduceCollider()
-    {
-
-        do
-        {
-
-            currentSize -= Vector2.one * increaseSpeed * Time.deltaTime;
             
-            boxCol.size = currentSize;
-        } while (currentSize.x > iniSize.x);
+            if (firstTimePassed == false)
+            {
+                StartCoroutine(FirstTime());
+                moveToTarget = true;
+                if (moveToTarget == true && firstTimePassed == true)
+                {
+                    tarPos = target.transform.position;
+                    do
+                    {
+                        rb.MovePosition(rb.position + tarPos.normalized * vel1 * Time.deltaTime);
 
+                    } while (rb.position != tarPos);
+                    if (rb.position == tarPos)
+                    {
+                        moveToTarget = false;
+                        StartCoroutine(SecondTime());
+                        if (moveToTarget == false && secondTimePassed == true)
+                        {
 
-    }
-    private void GrowCollider()
-    {
+                            do
+                            {
+                                rb.MovePosition(rb.position + oriPos.normalized * vel1 * Time.deltaTime);
 
-        while (currentSize.x < maxSize.x)
-        {
-            currentSize += Vector2.one * increaseSpeed * Time.deltaTime;
+                            } while (rb.position != oriPos);
+                            if (rb.position == oriPos)
+                            {
+                                attacking = false;
+                                firstTimePassed = false;
+                                secondTimePassed = false;
+                            }
+                        }
+                    }
+                }
+            }
             
-            boxCol.size = currentSize;
+
+            
+
+            
+
+            
+            
         }
-
-
     }
-
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.tag.Equals("MusicBox") && attacking == false)
+        if (collision.gameObject.tag.Equals("Detectable") && attacking == false)
         {
             target = collision.gameObject;
-            Debug.Log("CAJAAAAAA");
+            Debug.Log("YA TE VOY");
             attacking = true;
-            Attack();
-
-
         }
-        else if (collision.gameObject.tag.Equals("Lucy") && attacking == false)
-        {
-            target = collision.gameObject;
-            Debug.Log("SULLYVAN DAME A LA NIÑA");
-            attacking = true;
-            Attack();
-
-        }
-
     }
 
-    private void Attack()
-    {
-        //tarPos = target.transform.position;
-        StartCoroutine(Prepare());
-    }
 
-    private IEnumerator Prepare()
+    private IEnumerator FirstTime()
     {
         yield return new WaitForSecondsRealtime(secondsToAttack);
-        tarPos = target.transform.position;
-        transform.position = Vector3.Lerp(transform.position, tarPos, t1);
+        firstTimePassed = true;
+    }
+    private IEnumerator SecondTime()
+    {
         yield return new WaitForSecondsRealtime(secondsToStay);
-        transform.position = Vector3.Lerp(transform.position, oriPos, t2);
-        //Attack();
-        attacking = false;
-        target = null;
-        Debug.Log("Ahorita vemos que pedo");
+        secondTimePassed = true;
     }
 
 
     private void OnCollisionEnter2D(Collision2D colli)
     {
-        if (colli.gameObject.transform.tag == "Lucy")
+        if (colli.gameObject.transform.tag == "Detectable")
         {
             Debug.Log("Ya te cargo el payaso");
+            //attacking = false;
             //Destroy(colli.gameObject);
             //Cuando se sepa como se llamara la escena de muerte agregar aquí
             //SceneManager.LoadScene("Nombre de la escena de muerte");
             
 
-        } else if (colli.gameObject.transform.tag== "Music Box")
-        {
-            Debug.Log("Caja rota");
-            //Destroy(colli.gameObject);
-        }
+        } 
     }
-    
-        
-
 }

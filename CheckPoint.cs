@@ -5,26 +5,24 @@ using UnityEngine;
 public class CheckPoint : MonoBehaviour {
 
     private SavedFiles Save;
-
+    private bool usable=false;
     void Start()
     {
         Save = GameObject.FindGameObjectWithTag("Save").GetComponent<SavedFiles>();
     }
-
-    private void OnTriggerEnter2D(Collider2D other)
-    {
-
-        if (other.gameObject.name.Equals("Lucy"))
+	void Update () {
+        if (Input.GetKeyDown(KeyCode.E)&&usable)
         {
             Save.lastCheckPoint = transform.position;
         }
     }
-
-    // Use this for initialization
-    
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.gameObject.name.Equals("Lucy")&&other.gameObject.GetComponent<MainChar>().RaycastCheckUpdate()){
+            usable=true;
+            }
+    }
+    private void OnTriggerExit2D(Collider2D other) {
+        usable=false;
+    }
 }

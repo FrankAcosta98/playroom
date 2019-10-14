@@ -1,4 +1,5 @@
-﻿using System.Net.NetworkInformation;
+﻿using System.Globalization;
+using System.Net.NetworkInformation;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,7 +8,6 @@ public class Boss1 : MonoBehaviour
 {
     [SerializeField]
     private Transform[] points;
-    [SerializeField]
     public float speed;
     public float cooldown;
     private int Cpoint = 0;
@@ -16,7 +16,6 @@ public class Boss1 : MonoBehaviour
     private bool chilling = false;
     public float chill;
     private float chillLevel;
-    public BoxCollider2D kill;
     public CircleCollider2D detect;
     public Rigidbody2D rb;
 
@@ -39,7 +38,8 @@ public class Boss1 : MonoBehaviour
         if (chillLevel <= 0) { 
             hmm = false;
             chilling = false;
-            GameObject.FindGameObjectWithTag("focus").transform.tag = "detectable";
+            if(MainChar.instace.GetComponent<MainChar>().tag=="Focus")
+                MainChar.instace.GetComponent<MainChar>().tag="detectable";
         }
         if (chilling)
         {
@@ -75,22 +75,12 @@ public class Boss1 : MonoBehaviour
         if (prey.gameObject.transform.tag == "detectable")
         {
             hmm = true;
-            prey.gameObject.tag = "focus";
+            prey.gameObject.tag = "Focus";
             chillLevel = chill;
             //
             Debug.Log(prey.gameObject.transform.tag);
         }
     }
-
-    private void OnTriggerStay2D(Collider2D prey)
-    {
-        if (prey.gameObject.transform.tag == "focus" && kill.bounds.Contains(prey.gameObject.transform.position))
-        {
-            Debug.Log("Ya te cargo el payaso");
-            //Destroy(prey.gameObject);
-        }
-    }
-
     private void OnTriggerExit2D(Collider2D prey)
     {
         chilling = true;
@@ -98,6 +88,7 @@ public class Boss1 : MonoBehaviour
     }
     private void Hunt()
     {
-            transform.position = Vector2.MoveTowards(transform.position, GameObject.FindGameObjectWithTag("focus").transform.position, speed * Time.deltaTime);
+        if(GameObject.FindGameObjectWithTag("Focus")!=null)
+            transform.position = Vector2.MoveTowards(transform.position, GameObject.FindGameObjectWithTag("Focus").transform.position, speed * Time.deltaTime);
     }
 }

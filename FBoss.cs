@@ -26,8 +26,8 @@ public class FBoss : MonoBehaviour
         wait = cooldown;
         transform.position = points[Cpoint].transform.position;
         rb = this.GetComponent<Rigidbody2D>();
-        rb.constraints = RigidbodyConstraints2D.FreezeRotation;
         chillLevel = chill;
+        rb.constraints = RigidbodyConstraints2D.FreezeRotation;
     }
     // Update is called once per frame
 void Update()

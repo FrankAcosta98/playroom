@@ -5,36 +5,33 @@ using UnityEngine;
 
 public class Spawn : MonoBehaviour
 {
-    public GameObject key;
-    public GameObject box;
-    public float spawnCapacity;
+    public GameObject spawn;
+    public float spawnRate;
+    public float nextSpawn;
     List<Vector2> usedValues = new List<Vector2>();
-    public Collider2D collider;
+    public Collider2D area;
     Vector2 position;
 
 
     private void Start()
     {
-        
+
     }
 
     void Update()
     {
-        if (usedValues.Count < spawnCapacity)
+        if (Time.time > nextSpawn)
         {
-            Instantiate(box, RandomPosition(), Quaternion.identity);
+            nextSpawn = Time.time + spawnRate;
+            Instantiate(spawn, RandomPosition(), Quaternion.identity);
         }
-        else if(usedValues.Count == spawnCapacity)
-        {
-            Instantiate(key, RandomPosition(), Quaternion.identity);
-        }
-
     }
 
     private Vector2 RandomPosition()
     {
+        
         while (usedValues.Contains(position)){
-            position.Set(Random.Range(collider.bounds.min.x, collider.bounds.max.x), Random.Range(collider.bounds.min.y, collider.bounds.max.y));
+            position.Set(Random.Range(GetComponent<Collider>().bounds.min.x, GetComponent<Collider>().bounds.max.x), Random.Range(GetComponent<Collider>().bounds.min.y, GetComponent<Collider>().bounds.max.y));
         }
         usedValues.Add(position);
         return position;

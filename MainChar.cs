@@ -1,5 +1,4 @@
-﻿
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -11,12 +10,12 @@ public class MainChar : MonoBehaviour
     public Collider2D HitBox;
     public float velocidad;
     public Rigidbody2D rb;
-    Vector2 mvmt;
-    Vector2 lookAt;
+    protected Vector2 mvmt;
+    protected Vector2 lookAt;
     public Animator anim;
-    public float dashVel;
     public bool hasKey = false;
-    private bool hasBox=false;
+    public float dashVel;
+    public bool hasBox=false;
     private bool isMov=false;
     private bool isDown;
     private bool isUp; 
@@ -47,14 +46,11 @@ public class MainChar : MonoBehaviour
             isMov=true;
         else
             isMov=false;
-        /*
+        //debug para cargar la ultima posicion
         if (Input.GetKeyDown(KeyCode.P))
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-            */
-        if(Input.GetKeyDown(KeyCode.E))
-            RaycastCheckUpdate();
-        if(GameObject.Find("Box").GetComponent<MusicBox>().grabbed==true)
-            hasBox=true;
+        /*if(Input.GetKeyDown(KeyCode.E))
+            RaycastCheckUpdate();*/
         if(Input.GetAxisRaw("Horizontal") != 0 && Input.GetAxisRaw("Vertical") > 0){
             isUp = true;
             anim.SetFloat("Hor",0.0f);
@@ -77,30 +73,31 @@ public class MainChar : MonoBehaviour
         anim.SetBool("hasTed",true);
         anim.SetBool("hasBox",hasBox);
         anim.SetBool("isMov",isMov);
-        if (Input.GetKeyDown(KeyCode.Space)&&dash&&dashChg>=dashC){
-            vel=velocidad*dashVel;
+        if (Input.GetKeyDown(KeyCode.Space)&&dash&&dashChg>=dashC&&hasBox==false&&GetComponentInChildren<TeddyStates>().Holded==false){
+            velocidad=vel*dashVel;
             dashChg=0.0f;}
         if(dashT>dashDur){
             dashT=0;
             dash=false;
-            vel=velocidad;}
+            velocidad=vel;}
         if(dashT<dashDur)
             dash=true;
         dashT+=Time.fixedDeltaTime;
-        rb.MovePosition(rb.position + mvmt.normalized * vel * Time.fixedDeltaTime);
+        rb.MovePosition(rb.position + mvmt.normalized * velocidad * Time.fixedDeltaTime);
     }
 
     public bool RaycastCheckUpdate()
     {
         if (anim.GetCurrentAnimatorStateInfo(0).IsTag("f"))
-            lookAt.Set(0,-3);
+            lookAt.Set(transform.position.x,transform.position.y-3);
         else if (anim.GetCurrentAnimatorStateInfo(0).IsTag("l"))
-            lookAt.Set(-3,0);
+            lookAt.Set(transform.position.x-3,transform.position.y);
         else if (anim.GetCurrentAnimatorStateInfo(0).IsTag("r"))
-            lookAt.Set(3,0);
+            lookAt.Set(transform.position.x+3,transform.position.y);
         else if (anim.GetCurrentAnimatorStateInfo(0).IsTag("b"))
-            lookAt.Set(0,3);
+            lookAt.Set(transform.position.x,transform.position.y+3);
         RaycastHit2D hit = Physics2D.Raycast(transform.position,lookAt);
+        Debug.DrawLine(transform.position,lookAt);
         if (hit.collider)
         {
             if(hit.distance<=lookAt.magnitude)

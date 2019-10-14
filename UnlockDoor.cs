@@ -4,28 +4,23 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class UnlockDoor : MonoBehaviour
-{
-    public bool IsLucy = false;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
+{   
+    private bool usable=false;
     void Update()
     {
-        if (MainChar.instace.gameObject.GetComponent<MainChar>().hasKey == true && IsLucy == true)
+        if (MainChar.instace.GetComponent<MainChar>().hasKey&&usable)
         {
-            SceneManager.LoadScene("Lvl2");
+            //aqui se cambia la escena
+            //SceneManager.LoadScene("Lvl2");
+            Debug.Log("siguiente escena");
         }
     }
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.gameObject.name.Equals("Lucy") /*&& other.gameObject */ /* Agregar Raycast*/)
+        if (other.gameObject.name.Equals("Lucy")&&other.gameObject.GetComponent<MainChar>().RaycastCheckUpdate())
         {
-            IsLucy = true;
+            usable=true;
         }
     }
 }

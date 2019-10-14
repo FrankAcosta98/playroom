@@ -8,7 +8,7 @@ public class UnlockDoor : MonoBehaviour
     private bool usable = false;
     public string nivel; //"nivel" determina a cual nivel cambiará la escena
 
-    void FixedUpdate()
+    void Update()
     {
         //Si Lucy tiene la llave y es la puerta es usable...
         if (MainChar.instace.GetComponent<MainChar>().hasKey && usable)

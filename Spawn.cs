@@ -18,7 +18,7 @@ public class Spawn : MonoBehaviour
 
     }
 
-    void FixedUpdate()
+    void Update()
     {
         if (Time.time > nextSpawn) //Si el valor de tiempo se hace mayor que el valor de next spawn...
         {

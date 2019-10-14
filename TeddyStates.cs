@@ -24,7 +24,7 @@ public class TeddyStates : MonoBehaviour
         transform.gameObject.tag = "detectable"; //Lucy se establece como detectable
     }
 
-    void Update()
+    void FixedUpdate()
     {
         
         if (this.GetComponentInParent<MainChar>().hasBox == false) //Si Lucy no tiene una caja...

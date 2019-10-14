@@ -4,23 +4,28 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class UnlockDoor : MonoBehaviour
-{   
-    private bool usable=false;
+{
+    private bool usable = false;
+    public string nivel; //"nivel" determina a cual nivel cambiará la escena
+
     void Update()
     {
-        if (MainChar.instace.GetComponent<MainChar>().hasKey&&usable)
+        //Si Lucy tiene la llave y es la puerta es usable...
+        if (MainChar.instace.GetComponent<MainChar>().hasKey && usable)
         {
-            //aqui se cambia la escena
-            //SceneManager.LoadScene("Lvl2");
+            //La escena cambia a la asignada en el componente
+            SceneManager.LoadScene(nivel);
             Debug.Log("siguiente escena");
         }
     }
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.gameObject.name.Equals("Lucy")&&other.gameObject.GetComponent<MainChar>().RaycastCheckUpdate())
+        //Determina si Lucy esta colisionando con la puerta y si está viendo hacia la puerta
+        if (other.gameObject.name.Equals("Lucy") && other.gameObject.GetComponent<MainChar>().RaycastCheckUpdate())
         {
-            usable=true;
+            //Se determina que la puerta es usable
+            usable = true;
         }
     }
 }

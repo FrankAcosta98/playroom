@@ -1,46 +1,63 @@
-﻿using System.Reflection;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class HidePlace : MonoBehaviour
 {
+    [Header("Components")]
+    public Animator anim;
+
     private bool hiding = false;
     private bool hided = false;
-    
-    private void Start() {
+
+    // Use this for initialization
+    void Start()
+    {
+        anim = GetComponent<Animator>();
+
     }
+
+    // Update is called once per frame
     void Update()
     {
+        // Mientras el jugador este escondido no se mueve hasta volver a oprimir el boton
         if (hiding == true && Input.GetKeyDown(KeyCode.E))
         {
+            anim.SetBool("hiding", true);
             MainChar.instace.GetComponent<BoxCollider2D>().enabled = false;
-            MainChar.instace.GetComponentInChildren<CircleCollider2D>().enabled=false;
+            MainChar.instace.GetComponent<CircleCollider2D>().enabled = false;
             MainChar.instace.GetComponent<SpriteRenderer>().enabled = false;
-            MainChar.instace.enabled=false;
             hided = true;
             //desactivar luz
         }
-        else if (Input.GetKeyDown(KeyCode.E) && hided == true)
+
+
+        else if ((Input.GetAxisRaw("Horizontal") != 0 || Input.GetAxisRaw("Vertical") != 0) && hided == true)
         {
+            anim.SetBool("hiding", false);
             MainChar.instace.GetComponent<BoxCollider2D>().enabled = true;
-            MainChar.instace.GetComponentInChildren<CircleCollider2D>().enabled=false;
+            MainChar.instace.GetComponent<CircleCollider2D>().enabled = true;
             MainChar.instace.GetComponent<SpriteRenderer>().enabled = true;
-            MainChar.instace.enabled=true;
             //desactivar luz
         }
     }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.gameObject.name.Equals("Lucy")){
-            if(other.gameObject.GetComponent<MainChar>().RaycastCheckUpdate()){
-                hiding = true;
-            }
+        // Al entrar en contacto y interactuan el other se vuelve player y hiding se activa 
+        if (other.gameObject.name.Equals("Lucy"))
+        {
+            hiding = true;
+            
         }
     }
-    private void OnTriggerExit2D(Collider2D other) {
-        hiding=false;
+
+    void OnTriggerExit2D(Collider2D other)
+    {
+        if (other.gameObject.name.Equals("Lucy")  /* Agregar Raycast*/)
+        {
+            hiding = false;
+            hided = false;
+        }
     }
 }
-

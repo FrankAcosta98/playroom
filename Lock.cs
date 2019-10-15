@@ -1,11 +1,10 @@
-﻿
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Lock : MonoBehaviour
 {
-
+    //El código sirve para verificar si Lucy tiene la llave y está en rango de poder interactuar con la caja de fusibles
     private bool block = true;
 
     void Start()
@@ -15,7 +14,7 @@ public class Lock : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.E) && block == false)
+        if (Input.GetKeyDown(KeyCode.E) && block == false) //Si no se está bloquedo se puede interactuar con E
         {
             Debug.Log("Abierto");
         }
@@ -23,13 +22,13 @@ public class Lock : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.gameObject.name.Equals("Lucy") && MainChar.instace.gameObject.GetComponent<MainChar>().hasKey == true)
+        if (other.gameObject.name.Equals("Lucy") && MainChar.instace.gameObject.GetComponent<MainChar>().hasKey == true) //Si se tiene la llave se desbloquea y es posible usarlo
         {
             block = false;
         }
     }
 
-    void OnTriggerExit2D(Collider2D other)
+    void OnTriggerExit2D(Collider2D other) //Si Lucy se aleja no se puede usar
     {
         if (other.gameObject.name.Equals("Lucy")  /* Agregar Raycast*/)
         {

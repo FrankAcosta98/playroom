@@ -5,14 +5,14 @@ using UnityEngine;
 
 public class Lock : MonoBehaviour
 {
-    // Start is called before the first frame update
+
     private bool block = true;
+
     void Start()
     {
 
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.E) && block == false)
@@ -34,9 +34,6 @@ public class Lock : MonoBehaviour
         if (other.gameObject.name.Equals("Lucy")  /* Agregar Raycast*/)
         {
             block = true;
-
         }
     }
-
-    // OntriggerExit Falso
 }

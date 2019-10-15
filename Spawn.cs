@@ -5,13 +5,16 @@ using UnityEngine;
 
 public class Spawn : MonoBehaviour
 {
+    [Header("Components")]
     public GameObject spawn; //El objeto que se spawneará
+    public Collider2D area; //Esto define el área donde se podrá spawnear el objeto
+
+    [Header("Variables")]
     public float spawnRate; //Cada cuanto tiempo se spawneará el objeto
     public float nextSpawn; //Sirve en cuestión del tiempo para determinar si se vuelve a hacer spawn del objeto
-    List<Vector2> usedValues = new List<Vector2>(); //La lista guarda los valores de posición que ya se usaron para no repetirlos
-    public Collider2D area; //Esto define el área donde se podrá spawnear el objeto
-    Vector2 position; //Coordenadas donde se hará spawn
 
+    Vector2 position; //Coordenadas donde se hará spawn
+    List<Vector2> usedValues = new List<Vector2>(); //La lista guarda los valores de posición que ya se usaron para no repetirlos
 
     private void Start()
     {
@@ -40,4 +43,5 @@ public class Spawn : MonoBehaviour
         usedValues.Add(position); //Se agrega el valor de position a la lista de UsedValaues
         return position; //Se devuelve un vector2 para poder usarlo al momento de Instanciar el objeto
     }
+
 }

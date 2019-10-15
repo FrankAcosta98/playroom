@@ -10,14 +10,12 @@ public class HidePlace : MonoBehaviour
     private bool hiding = false;
     private bool hided = false;
 
-    // Use this for initialization
     void Start()
     {
         anim = GetComponent<Animator>();
 
     }
 
-    // Update is called once per frame
     void Update()
     {
         // Mientras el jugador este escondido no se mueve hasta volver a oprimir el boton

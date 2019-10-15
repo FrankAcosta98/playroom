@@ -156,28 +156,4 @@ public class Clown : MonoBehaviour {
     }
 
     #endregion
-
-
-    #region Ecorutine
-
-    //private IEnumerator Attack()
-    //{
-    //    float lag = 0f;
-    //    if(secondsToAttack < lag)
-    //    {
-    //    }
-
-    //    yield return wait;
-    //    //attacking = false; 
-    //}
-
-    //private IEnumerator SecondTime()
-    //{
-    //    yield return new WaitForSecondsRealtime(secondsToStay);
-    //    secondTimePassed = true;
-    //}
-
-    #endregion
-
-
 }

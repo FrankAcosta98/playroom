@@ -4,21 +4,24 @@ using UnityEngine;
 
 public class BossPatern : MonoBehaviour {
 
+    [Header("Components")]
+    public Transform[] moveSpots;
+
+    [Header("Variables")]
     public float velocidad;
     public float cooldown;
-    public Transform[] moveSpots;
+    
     private float wait;
     private int randomSpot;
 
 
-    // Use this for initialization
     void Start()
     {
         wait = cooldown;
         randomSpot = Random.Range(0, moveSpots.Length);
     }
-	
-	// Update is called once per frame
+
+
 	void Update () {
         transform.position = Vector2.MoveTowards(transform.position, moveSpots[randomSpot].position, velocidad * Time.deltaTime);
 

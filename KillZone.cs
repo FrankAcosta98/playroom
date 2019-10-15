@@ -4,24 +4,26 @@ using UnityEngine;
 
 public class KillZone : MonoBehaviour
 {
-    // Start is called before the first frame update
+    //El codigo se utiliza para determinar si el Boss mata a Lucy
+
     void Start()
     {
-        
+
     }
 
-    // Update is called once per frame
+
     void Update()
     {
-        
+
     }
-    
+
     private void OnTriggerStay2D(Collider2D prey)
     {
-        if (prey.gameObject.transform.tag == "Focus" &&prey.gameObject.name=="Lucy")
+        if (prey.gameObject.transform.tag == "Focus" && prey.gameObject.name == "Lucy") //Si se mantiene sobre Lucy en estado de Focus..
         {
             Debug.Log("Ya te cargo el payaso");
-            //Destroy(prey.gameObject);
+            //Destroy(prey.gameObject); //Se podrá destruir el objeto de Lucy
+            //Recordar agregar animador
         }
     }
 }

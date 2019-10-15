@@ -2,14 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SodaMachine : MonoBehaviour {
+public class SodaMachine : MonoBehaviour
+{
+    //El código sirve unicamente para interactuar con la máquina de soda y que realice su animación
 
     [Header("Components")]
     public Animator anim;
 
     private bool interact;
 
-    void Start () {
+    void Start()
+    {
         anim = GetComponent<Animator>();
     }
 
@@ -32,7 +35,7 @@ public class SodaMachine : MonoBehaviour {
         }
     }
 
-    private void OnTriggerExit2D(Collider2D collision)
+    private void OnTriggerExit2D(Collider2D collision) //Cuando Lucy se aleja se desactiva la interacción
     {
         anim.SetBool("interact", false);
     }

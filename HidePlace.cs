@@ -19,9 +19,10 @@ public class HidePlace : MonoBehaviour
     void Update()
     {
         // Mientras el jugador este escondido no se mueve hasta volver a oprimir el boton
-        if (hiding == true && Input.GetKeyDown(KeyCode.E))
+        if (hiding == true && Input.GetKeyDown(KeyCode.E)) //Interactuar con la caja/Casillero
         {
             anim.SetBool("hiding", true);
+            //En estas líneas se desactivan los componentes para hacer a Lucy invisible e indetectable
             MainChar.instace.GetComponent<BoxCollider2D>().enabled = false;
             MainChar.instace.GetComponent<CircleCollider2D>().enabled = false;
             MainChar.instace.GetComponent<SpriteRenderer>().enabled = false;
@@ -42,15 +43,15 @@ public class HidePlace : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        // Al entrar en contacto y interactuan el other se vuelve player y hiding se activa 
+        // Al entrar en contacto y interactuan el other se vuelve player y hiding se activa, haciendo posible esconderse
         if (other.gameObject.name.Equals("Lucy"))
         {
             hiding = true;
-            
+
         }
     }
 
-    void OnTriggerExit2D(Collider2D other)
+    void OnTriggerExit2D(Collider2D other) //Si te alejas se desactiva la posibilidad de interactuar y se resetean las condiciones
     {
         if (other.gameObject.name.Equals("Lucy")  /* Agregar Raycast*/)
         {

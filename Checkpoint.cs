@@ -28,7 +28,7 @@ public class Checkpoint : MonoBehaviour
             saved = true;
         }
 
-        if (saved == true)
+        if (saved == true && Input.GetKeyDown(KeyCode.O))
         {
             player.transform.position = new Vector2(PlayerPrefs.GetFloat("ValorX"), PlayerPrefs.GetFloat("ValorY"));
         }

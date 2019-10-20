@@ -51,9 +51,13 @@ public class MainChar : MonoBehaviour
             isMov = false;
         //debug para cargar la ultima posicion
         if (Input.GetKeyDown(KeyCode.P))
+        {
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-        /*if(Input.GetKeyDown(KeyCode.E))
-            RaycastCheckUpdate();*/
+            this.transform.position = Save.lastCheckPoint;
+            /*if(Input.GetKeyDown(KeyCode.E))
+                RaycastCheckUpdate();*/
+        }
+
 
         //Se determina para donde se mueve y que Animador llamará
         if (Input.GetAxisRaw("Horizontal") != 0 && Input.GetAxisRaw("Vertical") > 0)

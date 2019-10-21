@@ -8,7 +8,7 @@ public class MainChar : MonoBehaviour
     //Este codigo sirve para que Lucy haga todo lo que tenga que hacer
 
     public static MainChar instace; //Para crear al personaje
-    private SavedFiles Save; //sirve para guardar su posición
+    //private SavedFiles Save; //sirve para guardar su posición
     public Collider2D HitBox; //Collider que representa el "cuerpo" de Lucy
     public float velocidad; //velocidad original
     public Rigidbody2D rb;
@@ -31,8 +31,7 @@ public class MainChar : MonoBehaviour
     void Start()
     {
         isUp = false;
-        Save = GameObject.FindGameObjectWithTag("Save").GetComponent<SavedFiles>();
-        transform.position = Save.lastCheckPoint;
+        //transform.position = Save.lastCheckPoint;
         instace = this;
         anim = this.GetComponent<Animator>();
         rb = this.GetComponent<Rigidbody2D>();
@@ -50,13 +49,13 @@ public class MainChar : MonoBehaviour
         else
             isMov = false;
         //debug para cargar la ultima posicion
-        if (Input.GetKeyDown(KeyCode.P))
+        /*if (Input.GetKeyDown(KeyCode.P))
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
             this.transform.position = Save.lastCheckPoint;
-            /*if(Input.GetKeyDown(KeyCode.E))
-                RaycastCheckUpdate();*/
-        }
+            if(Input.GetKeyDown(KeyCode.E))
+                RaycastCheckUpdate();
+        }*/
 
 
         //Se determina para donde se mueve y que Animador llamará

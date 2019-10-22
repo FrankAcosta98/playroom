@@ -43,9 +43,15 @@ public class Monkey : MonoBehaviour
         if (prey.gameObject.transform.tag == "detectable" && prey.GetType() == typeof(CircleCollider2D))
         {
             hmm = true;
+            chilling = false;
             //prey.gameObject.GetComponent<Transform>().tag = "detectable";
             chillLevel = chill;
             Debug.Log(prey.gameObject.transform.tag);
+        }
+
+        if(prey.gameObject.transform.tag == "Enemigo" && prey.GetType() == typeof(CircleCollider2D))
+        {
+            prey.gameObject.GetComponent<Boss1>().hmm = true;
         }
     }
 

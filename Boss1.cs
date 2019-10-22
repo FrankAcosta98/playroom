@@ -12,7 +12,7 @@ public class Boss1 : MonoBehaviour
     public float cooldown; //Tiempo para cambiar
     private int Cpoint = 0; //Indice de puntos
     private float wait;
-    private bool hmm = false;
+    public bool hmm = false;
     private bool chilling = false;
     public float chill; //Tiempo para regresar a chilling
     private float chillLevel;

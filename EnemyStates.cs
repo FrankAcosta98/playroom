@@ -37,17 +37,21 @@ public class EnemyStates : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision) //El metodo sirve para determinar si es Lucy o una caja
     {
-        if (collision.gameObject.name.Equals("Lucy"))
+        if (collision.gameObject.tag.Equals("Focus") || collision.gameObject.tag.Equals("detectable"))
         {
-            target = collision.gameObject;
-            Debug.Log("Persiguiendo algo");
+            if (collision.gameObject.name.Equals("Lucy") || collision.gameObject.name.Equals("MusicBox"))
+            {
+                target = collision.gameObject;
+                Debug.Log("Persiguiendo Lucy/Caja");
 
+            } else
+            {
+                target = collision.gameObject;
+                Debug.Log("Persiguiendo algo más");
+            }
         }
-        else if (collision.gameObject.name.Equals("MusicBox"))
-        {
-            target = collision.gameObject;
-            Debug.Log("Persiguiendo algo");
-        }
+        
+
     }
 
 

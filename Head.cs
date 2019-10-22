@@ -7,8 +7,8 @@ public class Head : MonoBehaviour
     [HideInInspector]//no se toca
     public bool IsLucy=false;
     [HideInInspector]
-    public bool ISBox=false;
-
+    public bool IsBox=false;
+    
     [Header("Components")]
     public CircleCollider2D trigger; //trigger
     public Animator anim;
@@ -23,10 +23,10 @@ public class Head : MonoBehaviour
     {
         if(IsLucy)
             anim.SetBool("IsLucy",IsLucy);
-        else if(ISBox)
-            anim.SetBool("ISBox",ISBox);
+        else if(IsBox)
+            anim.SetBool("IsBox",IsBox);
     }
-    void OnTriggerEnter2D(Collider prey)
+    void OnTriggerEnter2D(Collider2D prey)
     {
         if (prey.gameObject.name == "Lucy") //Si se mantiene sobre Lucy en estado de Focus..
         {
@@ -36,7 +36,7 @@ public class Head : MonoBehaviour
             //Recordar agregar animador
         }
         else if (prey.gameObject.transform.tag == "detectable"){
-            ISBox=true;
+            IsBox=true;
             Destroy(prey.gameObject);
             }
     }

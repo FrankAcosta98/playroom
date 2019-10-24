@@ -15,7 +15,7 @@ public class Head : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        anim.SetFloat("spd",this.GetComponentInParent<Clown>().headSpeed);
+        
     }
 
     // Update is called once per frame
@@ -25,6 +25,10 @@ public class Head : MonoBehaviour
             anim.SetBool("IsLucy",IsLucy);
         else if(IsBox)
             anim.SetBool("IsBox",IsBox);
+        if(IsLucy==false&&IsBox==false){
+            anim.SetBool("IsBox",IsBox);
+            anim.SetBool("IsLucy",IsLucy);
+        }
     }
     void OnTriggerEnter2D(Collider2D prey)
     {
@@ -35,7 +39,7 @@ public class Head : MonoBehaviour
             //Destroy(prey.gameObject); //Se podrá destruir el objeto de Lucy
             //Recordar agregar animador
         }
-        else if (prey.gameObject.transform.tag == "detectable"){
+        else if (prey.gameObject.transform.tag == "Focus"){
             IsBox=true;
             Destroy(prey.gameObject);
             }

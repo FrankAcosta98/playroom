@@ -8,7 +8,6 @@ public class Clown : MonoBehaviour
 
     [Header("Components")]
     public BoxCollider2D Range; //Determina el rango de detección
-    private GameObject target = null;
     public GameObject head;
     public Animator anim;
     [Header("Vectors")]
@@ -64,6 +63,7 @@ public class Clown : MonoBehaviour
             anim.SetBool("Active",false);
             Attack(); //Se activa el método de ataque
         }
+        
     }
 
     private void Attack()
@@ -76,8 +76,8 @@ public class Clown : MonoBehaviour
         else //Cuando waitToAttack sea mayor...
         {
             
-            head.transform.position=Vector2.MoveTowards(head.transform.position , target.transform.position , headSpeed * Time.deltaTime); //Nos movemos hacia el target
-            if (Vector2.Distance(target.transform.position, head.transform.position) <= 0.001) //Cuando ya estamos cerca
+            head.transform.position=Vector2.MoveTowards(head.transform.position , GameObject.FindGameObjectWithTag("Focus").transform.position , headSpeed * Time.deltaTime); //Nos movemos hacia el target
+            if (Vector2.Distance(GameObject.FindGameObjectWithTag("Focus").transform.position, head.transform.position) <= 0.001) //Cuando ya estamos cerca
             {
                 //Declaramos que ya atacamos y ya no estamos atacando
                 waitToAttack = 0f;
@@ -153,7 +153,7 @@ public class Clown : MonoBehaviour
         if (prey.gameObject.transform.tag == "detectable" && attacking == false) //Si eres Lucy
         {
             anim.SetBool("Active",false);
-            target = prey.gameObject;
+            prey.gameObject.transform.tag="Focus";
             attacking = true;
         }
     }

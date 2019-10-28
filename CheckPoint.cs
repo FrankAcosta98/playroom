@@ -23,14 +23,34 @@ public class Checkpoint : MonoBehaviour
         //Si el jugador interactua
         if (SaveAllowed == true && Input.GetKeyDown(KeyCode.E))
         {
+            if (player.gameObject.GetComponent<MainChar>().hasKey == true)
+            {
+                PlayerPrefs.SetFloat("ValorX", player.transform.position.x);
+                PlayerPrefs.SetFloat("ValorY", player.transform.position.y);
+                PlayerPrefs.SetString("Llave", "True");
+                saved = true;
+            }
+            else if (player.gameObject.GetComponent<MainChar>().hasKey == false)
+            {
             PlayerPrefs.SetFloat("ValorX", player.transform.position.x);
             PlayerPrefs.SetFloat("ValorY", player.transform.position.y);
+                PlayerPrefs.SetString("Llave", "False");
             saved = true;
     }
+
+
+        } 
 
         if (saved == true && Input.GetKeyDown(KeyCode.O))
         {
             player.transform.position = new Vector2(PlayerPrefs.GetFloat("ValorX"), PlayerPrefs.GetFloat("ValorY"));
+            if (PlayerPrefs.GetString("Llave").Equals("True"))
+            {
+                player.gameObject.GetComponent<MainChar>().hasKey = true;
+            } else
+            {
+                player.gameObject.GetComponent<MainChar>().hasKey = false;
+            }
         }
     }
 

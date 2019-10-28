@@ -1,5 +1,4 @@
-﻿using System.Security.Cryptography.X509Certificates;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -10,6 +9,8 @@ public class Clown : MonoBehaviour
     public BoxCollider2D Range; //Determina el rango de detección
     public GameObject head;
     public Animator anim;
+    public GameObject chainLink;
+    //private GameObject[] Chain=new GameObject[7];
     [Header("Vectors")]
     public Vector2 initialSize = new Vector2(5.9f, 4f); //Tamaño inicial
     public Vector2 maxSize = new Vector2(9.23f, 7.41f); //Tamaño máximo
@@ -68,6 +69,7 @@ public class Clown : MonoBehaviour
 
     private void Attack()
     {
+        this.GetComponentInChildren<Chain>().reset=false;
         if (secondsToAttack > waitToAttack) //Si los segundos para atacar son mayores al tiempo para esperar..
         {
             waitToAttack += Time.deltaTime; //aumentamos el waitToAttack
@@ -75,7 +77,6 @@ public class Clown : MonoBehaviour
         }
         else //Cuando waitToAttack sea mayor...
         {
-            
             head.transform.position=Vector2.MoveTowards(head.transform.position , GameObject.FindGameObjectWithTag("Focus").transform.position , headSpeed * Time.deltaTime); //Nos movemos hacia el target
             if (Vector2.Distance(GameObject.FindGameObjectWithTag("Focus").transform.position, head.transform.position) <= 0.001) //Cuando ya estamos cerca
             {
@@ -88,7 +89,7 @@ public class Clown : MonoBehaviour
     }
 
     private void Retreat()
-    {
+    {   
         if (secondsToAttack > waitToAttack) //Si los secondsToAttack son mayores al waitToAttack
         {
             waitToAttack += Time.deltaTime; //Aumentamos waitToAttack
@@ -101,6 +102,7 @@ public class Clown : MonoBehaviour
             head.transform.position=Vector2.MoveTowards(head.transform.position , gameObject.transform.position , headSpeed * Time.deltaTime);
             if (Vector2.Distance(this.gameObject.transform.position, head.transform.position) < 0.001)
             {
+                this.GetComponentInChildren<Chain>().reset=true;
                 waitToAttack = 0f;
                 attacking = false;
                 attacked = false;
@@ -108,7 +110,6 @@ public class Clown : MonoBehaviour
         }
 
     }
-
     #region Range
 
     private void GrowRange() //Metodo para crecer el Collider

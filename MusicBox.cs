@@ -5,22 +5,33 @@ using UnityEngine;
 
 public class MusicBox : MonoBehaviour
 {
-    private bool pickUpAllowed; //Determina si se puede levantar ´la caja
-    public bool grabbed; //Determina si ya se levantó la caja
+    [Header("Components")]
     public Rigidbody2D rb; //El clásico
     public Collider2D grab; //Areá para agarrarlo
     public Collider2D hitbox; //El collider normal
     public Collider2D AoE; //Área de deteción
+    public Animator anim;
+
+    [Header("Variables")]
+    public bool grabbed; //Determina si ya se levantó la caja
     public float charge = 0.4f; //Tiempo para preparar la caja
     public float batery = 5f; //El tiempo que "suena" la caja
+    public float movT = 0.3f; //Tiempo que tarda en llegar a su destino
+
+
+    private bool pickUpAllowed; //Determina si se puede levantar ´la caja
     private float charging; //Para determinar cuanto tiempo ya pasó
     private bool charged = false; //Determina si ya se cargó o no
     private float throwD = 5f; //Distancia a la que se puede lanzar
     private bool move = false; //Para que Lucy no se mueva
     private Vector2 dirAbs; //Dirección sin determinar
-    public float movT = 0.3f; //Tiempo que tarda en llegar a su destino
-    private float tmpT = 0f; //No lo toquen
     private Vector2 dir; //Hacia donde apunta
+    private float tmpT = 0f; //No lo toquen
+
+    [Header("Sprites")]
+    public Sprite currentSee;
+    public Sprite currentInte;
+
 
     void Start()
     {
@@ -29,6 +40,7 @@ public class MusicBox : MonoBehaviour
         pickUpAllowed = false;
         rb.bodyType = RigidbodyType2D.Static;
         dirAbs.Set(Mathf.Abs(dir.x), Mathf.Abs(dir.y));
+        anim = GetComponent<Animator>();
     }
 
     void Update()
@@ -61,18 +73,32 @@ public class MusicBox : MonoBehaviour
         }
         if (transform.tag == "detectable") //Si el tag de la caja es detectable...
             batery -= Time.deltaTime; //La batería comienza a reducirse con el tiempo
-        if (batery <= 0) //Cuando la batería es igual o menor a 0..
+        if (batery <= 0)
+        {
+            //Cuando la batería es igual o menor a 0.
             Destroy(gameObject); //La caja se destruye
+        }
         if (grabbed) //Si ya recojiste la caja se empieza el Animator
         {
-            if (MainChar.instace.GetComponent<MainChar>().anim.GetCurrentAnimatorStateInfo(0).IsTag("f"))
-                dir.Set(0, -throwD);
-            else if (MainChar.instace.GetComponent<MainChar>().anim.GetCurrentAnimatorStateInfo(0).IsTag("l"))
-                dir.Set(-throwD, 0);
-            else if (MainChar.instace.GetComponent<MainChar>().anim.GetCurrentAnimatorStateInfo(0).IsTag("r"))
-                dir.Set(throwD, 0);
-            else if (MainChar.instace.GetComponent<MainChar>().anim.GetCurrentAnimatorStateInfo(0).IsTag("b"))
-                dir.Set(0, throwD);
+            //if (MainChar.instace.GetComponent<MainChar>().anim.GetCurrentAnimatorStateInfo(0).IsTag("f"))
+            //{
+            //    dir.Set(0, -throwD);
+            //}
+
+            //else if (MainChar.instace.GetComponent<MainChar>().anim.GetCurrentAnimatorStateInfo(0).IsTag("l"))
+            //{
+            //    dir.Set(-throwD, 0);
+
+            //}
+            //else if (MainChar.instace.GetComponent<MainChar>().anim.GetCurrentAnimatorStateInfo(0).IsTag("r"))
+            //{
+            //    dir.Set(throwD, 0);
+            //}
+
+            //else if (MainChar.instace.GetComponent<MainChar>().anim.GetCurrentAnimatorStateInfo(0).IsTag("b"))
+            //{
+            //    dir.Set(0, throwD);
+            //}
         }
     }
     private void FixedUpdate()
@@ -82,7 +108,7 @@ public class MusicBox : MonoBehaviour
             if (tmpT < movT) //Y si el valor de tmpT es menor al del movimiento total de la caja
             {
                 rb.MovePosition(rb.position + dir * Time.fixedDeltaTime); //La caja se mvovera en la dirección de dir
-                tmpT += Time.deltaTime; 
+                tmpT += Time.deltaTime;
             }
         }
         if (tmpT >= movT) //Si el valor de tmpT es mayor o igual que el de movT...
@@ -98,15 +124,19 @@ public class MusicBox : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision) //Cuando se entre en una collision...
     {
+        // Al entrar en contacto y interactuan el other se vuelve player y se activa 
         if (collision.gameObject.name.Equals("Lucy") && MainChar.instace.RaycastCheckUpdate()) //Si es Lucy y el Raycast apunta a la caja...
         {
+            anim.enabled = false;
+            this.gameObject.GetComponent<SpriteRenderer>().sprite = currentInte;
             pickUpAllowed = true; //Se permite levantarlo
         }
     }
     private void OnTriggerExit2D(Collider2D collision) //Cuando un trigger sale ce la colision...
     {
-        if (collision.gameObject.name.Equals("Lucy")) //Si era Lucy..
+        if (collision.gameObject.name.Equals("Lucy") || !MainChar.instace.RaycastCheckUpdate()) //Si era Lucy..
         {
+            anim.enabled = true;
             pickUpAllowed = false; //No se permite levantar
         }
     }
@@ -124,6 +154,28 @@ public class MusicBox : MonoBehaviour
         hitbox.enabled = true; //Se vuelve a activar el collider que lo hace "físico"
         this.gameObject.GetComponent<SpriteRenderer>().enabled = true; //Se reactiva el SpriteRenderer
         move = true; //Es Lucy, no la caja
+        anim.enabled = true;
         transform.gameObject.tag = "detectable"; //Pa los monstruos
+        if (dir == new Vector2(0, -throwD))
+        {
+            anim.SetFloat("x", -1);
+            anim.SetFloat("y", 0);
+        }
+        else if (dir == new Vector2(throwD, 0))
+        {
+            anim.SetFloat("x", 0);
+            anim.SetFloat("y", 1);
+        }
+        else if (dir == new Vector2(-throwD, 0))
+        {
+            anim.SetFloat("x", 0);
+            anim.SetFloat("y", -1);
+        }
+        else if (dir == new Vector2(0,throwD))
+        {
+            anim.SetFloat("x", 1);
+            anim.SetFloat("y", 0);
+        }
+
     }
 }

@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.Experimental.Rendering.LWRP;
 public class HidePlace : MonoBehaviour
 {
     [Header("Components")]
@@ -25,7 +25,8 @@ public class HidePlace : MonoBehaviour
         {
             anim.SetBool("hiding", true);
             MainChar.instace.GetComponent<BoxCollider2D>().enabled = false;
-            MainChar.instace.GetComponent<CircleCollider2D>().enabled = false;
+            MainChar.instace.GetComponentInChildren<CircleCollider2D>().enabled=false;
+            MainChar.instace.GetComponentInChildren<Light2D>().enabled=false;
             MainChar.instace.GetComponent<SpriteRenderer>().enabled = false;
             hided = true;
             //desactivar luz
@@ -36,7 +37,8 @@ public class HidePlace : MonoBehaviour
         {
             anim.SetBool("hiding", false);
             MainChar.instace.GetComponent<BoxCollider2D>().enabled = true;
-            MainChar.instace.GetComponent<CircleCollider2D>().enabled = true;
+            MainChar.instace.GetComponentInChildren<CircleCollider2D>().enabled=true;
+            MainChar.instace.GetComponentInChildren<Light2D>().enabled=true;
             MainChar.instace.GetComponent<SpriteRenderer>().enabled = true;
             //desactivar luz
         }

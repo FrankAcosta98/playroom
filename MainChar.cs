@@ -53,10 +53,10 @@ public class MainChar : MonoBehaviour
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
             this.transform.position = Save.lastCheckPoint;
-            if(Input.GetKeyDown(KeyCode.E))
-                RaycastCheckUpdate();
+            
         }*/
-
+        if(Input.GetKeyDown(KeyCode.E))
+                RaycastCheckUpdate();
 
         //Se determina para donde se mueve y que Animador llamará
         if (Input.GetAxisRaw("Horizontal") != 0 && Input.GetAxisRaw("Vertical") > 0)
@@ -117,6 +117,7 @@ public class MainChar : MonoBehaviour
             lookAt.Set(transform.position.x, transform.position.y + 3);
         RaycastHit2D hit = Physics2D.Raycast(transform.position, lookAt);
         Debug.DrawLine(transform.position, lookAt); //Al momento la linea es visible para testeo, se removerá en las versiones siguientes
+        
         if (hit.collider) //Para verificar la colisión
         {
             if (hit.distance <= lookAt.magnitude)

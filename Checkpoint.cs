@@ -1,57 +1,46 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Checkpoint : MonoBehaviour
 {
-    //El código sirve 
+    private bool SaveAllowed; //Determina si es posible guardar los datos de la partida
+    GameObject player; //Lucy
+    Scene scene; //Escena actual, se usa su nombre
+    public Collider2D box; //Collider de colision
+    public Collider2D area; //Collider de trigger
+    
 
-
-    //PlayerPrefs checkpoint;
-    private bool SaveAllowed;
-    GameObject player;
-    private bool saved;
 
     void Start()
     {
-        saved = false;
+        scene = SceneManager.GetActiveScene();
         SaveAllowed = false;
     }
 
     void Update()
     {
         //Si el jugador interactua
-        if (SaveAllowed == true && Input.GetKeyDown(KeyCode.E))
-        {
+        if (SaveAllowed == true && Input.GetKeyDown(KeyCode.E)) {
+            //Se guarda el valor de la posicion x y y de Lucy en ese momento
+            PlayerPrefs.SetString("Guardado", "True");
+            PlayerPrefs.SetFloat("ValorX", player.transform.position.x);
+            PlayerPrefs.SetFloat("ValorY", player.transform.position.y);
+            //Se determina si Lucy tiene la llave
             if (player.gameObject.GetComponent<MainChar>().hasKey == true)
             {
-                PlayerPrefs.SetFloat("ValorX", player.transform.position.x);
-                PlayerPrefs.SetFloat("ValorY", player.transform.position.y);
                 PlayerPrefs.SetString("Llave", "True");
-                saved = true;
             }
-            else if (player.gameObject.GetComponent<MainChar>().hasKey == false)
-            {
-                PlayerPrefs.SetFloat("ValorX", player.transform.position.x);
-                PlayerPrefs.SetFloat("ValorY", player.transform.position.y);
-                PlayerPrefs.SetString("Llave", "False");
-                saved = true;
-            }
-
+            //Se guarda el nombre de la escena para usarlo más tarde al momento de recargar
+            PlayerPrefs.SetString("Escena", SceneManager.GetActiveScene().name);
+            //Comprobación de guardado
+            Debug.Log("Ya lo guarde we");
+            Debug.Log(PlayerPrefs.GetFloat("ValorX").ToString());
+            Debug.Log(PlayerPrefs.GetFloat("ValorY").ToString());
 
         } 
 
-        if (saved == true && Input.GetKeyDown(KeyCode.O))
-        {
-            player.transform.position = new Vector2(PlayerPrefs.GetFloat("ValorX"), PlayerPrefs.GetFloat("ValorY"));
-            if (PlayerPrefs.GetString("Llave").Equals("True"))
-            {
-                player.gameObject.GetComponent<MainChar>().hasKey = true;
-            } else
-            {
-                player.gameObject.GetComponent<MainChar>().hasKey = false;
-            }
-        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision) //Cuando se entre en una collision...
@@ -69,5 +58,6 @@ public class Checkpoint : MonoBehaviour
             SaveAllowed = false; //No se permite levantar
         }
     }
+    
 
 }

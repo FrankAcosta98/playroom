@@ -27,8 +27,10 @@ public class Boss3 : MonoBehaviour {
     private int Cpoint = 0; //Indice de puntos
     private float wait; //Tiempo de espera
     private bool chilling = false; //Esta descansando
+    private bool spawned = false; //Para saber si ya spawneo las cajas
     private float chillLevel; //Contador Chill
     private Vector2 dir; //Hacia donde apunta
+    private float waitSpawn = 0f; //Espera a que termine la animacion
 
     List<Vector2> usedValues = new List<Vector2>();
     Vector2 position;
@@ -79,7 +81,7 @@ public class Boss3 : MonoBehaviour {
             chillLevel -= Time.deltaTime; //Se reduce
         }
 
-        if (Vector2.Distance(transform.position, points[2].position) < 0.1f && anim.GetBool("Spawn") == false && boxes[0] == null)
+        if (Vector2.Distance(transform.position, points[2].position) < 0.1f && anim.GetBool("Spawn") == false)
         {
             Punch();
             ChangeFase();
@@ -90,20 +92,21 @@ public class Boss3 : MonoBehaviour {
             anim.SetBool("Spawn", false);
         }
 
-        if (Vector2.Distance(transform.position, points[2].position) < 0.1f && anim.GetBool("Fire") == false)
-        {
-            Erased();
-        }
+        //if (Vector2.Distance(transform.position, points[2].position) < 0.1f && anim.GetBool("Fire") == false)
+        //{
+        //    Erased();
+        //}
     }
 
     private void Erased()
     {
         anim.SetBool("Fire", true);
-        foreach (GameObject gameObject in boxes)
+        for(int i = 0; i< boxes.Length; i++)
         {
-            Destroy(gameObject);
+            Destroy(GameObject.FindGameObjectWithTag("Box"));
         }
         anim.SetBool("Fire", false);
+        spawned = false;
     }
 
     #endregion
@@ -179,13 +182,13 @@ public class Boss3 : MonoBehaviour {
 
     private void Punch()
     {
-        //spawnear cosas random en el Vect2 area
+        anim.SetBool("Spawn", true);
         while (usedValues.Count < boxes.Length)
         {
-            anim.SetBool("Spawn", true);
-            boxes[usedValues.Count] = Instantiate(box, RandomPosition(), Quaternion.identity) as GameObject;
+            //spawnear cosas random en el Vect2 area
+            boxes[usedValues.Count] = Instantiate(box, RandomPosition(), Quaternion.identity);
         }
-
+      
         if (fase == 3)
         {
             Instantiate(key, RandomPosition(), Quaternion.identity);
@@ -203,13 +206,17 @@ public class Boss3 : MonoBehaviour {
                 break;
 
             case 2:
+                Erased();
                 boxes = new GameObject[5];
+                
                 break;
 
             case 3:
                 boxes = new GameObject[6];
+                Erased();
                 break;
         }
+
     }
 
     private Vector2 RandomPosition()

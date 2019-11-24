@@ -30,7 +30,7 @@ public class SodaMachine : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D other)
     {
         // Al entrar en contacto y interactuan el other se vuelve player y se activa 
-        if (other.gameObject.name.Equals("Lucy") && MainChar.instace.RaycastCheckUpdate())
+        if (other.gameObject.name.Equals("Lucy"))
         {
             anim.enabled = false;
             interact = true;
@@ -40,7 +40,7 @@ public class SodaMachine : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D other)
     {
-        if (other.gameObject.name.Equals("Lucy") || !MainChar.instace.RaycastCheckUpdate())
+        if (other.gameObject.name.Equals("Lucy"))
         {
             anim.enabled = true;
             this.gameObject.GetComponent<SpriteRenderer>().sprite = notSeeing;

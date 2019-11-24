@@ -162,7 +162,7 @@ public class Clown : MonoBehaviour
         if (si)
         {
             for (int i = 2; i < 9; i++)
-                transform.GetChild(i).transform.position = transform.GetChild(1).transform.position;
+                transform.GetChild(i).transform.position = Vector2.MoveTowards(transform.GetChild(i).transform.position, transform.GetChild(1).transform.position, headSpeed * Time.deltaTime);
         }
     }
 }

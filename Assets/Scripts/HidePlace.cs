@@ -25,7 +25,6 @@ public class HidePlace : MonoBehaviour
         {
             anim.SetBool("hiding", true);
             MainChar.instace.GetComponent<BoxCollider2D>().enabled = false;
-            MainChar.instace.GetComponent<CircleCollider2D>().enabled = false;
             MainChar.instace.GetComponent<SpriteRenderer>().enabled = false;
             hided = true;
             MainChar.instace.GetComponent<Transform>().GetChild(0).gameObject.SetActive(false);
@@ -37,9 +36,9 @@ public class HidePlace : MonoBehaviour
         {
             anim.SetBool("hiding", false);
             MainChar.instace.GetComponent<BoxCollider2D>().enabled = true;
-            MainChar.instace.GetComponent<CircleCollider2D>().enabled = true;
             MainChar.instace.GetComponent<SpriteRenderer>().enabled = true;
             MainChar.instace.GetComponent<Transform>().GetChild(0).gameObject.SetActive(true);
+            hided = false;
             //desactivar luz
         }
     }
@@ -49,10 +48,6 @@ public class HidePlace : MonoBehaviour
         // Al entrar en contacto y interactuan el other se vuelve player y hiding se activa
         if (other.gameObject.name.Equals("Lucy"))
         {
-            if (!hided)
-            {
-                anim.enabled = false;
-            }
             usable = true;
             this.gameObject.GetComponent<SpriteRenderer>().sprite = seeing;
         }
@@ -62,9 +57,7 @@ public class HidePlace : MonoBehaviour
     {
         if (other.gameObject.name.Equals("Lucy"))
         {
-            anim.enabled = true;
             usable = false;
-            hided = false;
             this.gameObject.GetComponent<SpriteRenderer>().sprite = notSeeing;
         }
     }

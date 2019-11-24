@@ -27,7 +27,7 @@ public class Lock : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.gameObject.name.Equals("Lucy") && MainChar.instace.RaycastCheckUpdate())
+        if (other.gameObject.name.Equals("Lucy") )
         {
             this.gameObject.GetComponent<SpriteRenderer>().sprite = seeing;
         }
@@ -40,7 +40,7 @@ public class Lock : MonoBehaviour
 
     void OnTriggerExit2D(Collider2D other) //Si Lucy se aleja no se puede usa
     {
-        if (other.gameObject.name.Equals("Lucy") || !MainChar.instace.RaycastCheckUpdate())
+        if (other.gameObject.name.Equals("Lucy") )
         {
             this.gameObject.GetComponent<SpriteRenderer>().sprite = notSeeing;
             block = true;

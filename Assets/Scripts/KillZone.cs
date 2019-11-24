@@ -22,7 +22,7 @@ public class KillZone : MonoBehaviour
         if (prey.gameObject.transform.tag == "Focus" && prey.gameObject.name == "Lucy") //Si se mantiene sobre Lucy en estado de Focus..
         {
             Debug.Log("Ya te cargo el payaso");
-            //Destroy(prey.gameObject); //Se podrá destruir el objeto de Lucy
+            Destroy(prey.gameObject); //Se podrá destruir el objeto de Lucy
             //Recordar agregar animador
         }
     }

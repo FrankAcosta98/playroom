@@ -26,7 +26,7 @@ public class Key : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.gameObject.name.Equals("Lucy") && MainChar.instace.RaycastCheckUpdate()) //Si Lucy se acerca se puede usar
+        if (other.gameObject.name.Equals("Lucy") ) //Si Lucy se acerca se puede usar
         {
             usable = true;
             anim.SetBool("seeing", true);
@@ -35,7 +35,7 @@ public class Key : MonoBehaviour
 
     void OnTriggerExit2D(Collider2D other) 
     {
-        if (other.gameObject.name.Equals("Lucy") || !MainChar.instace.RaycastCheckUpdate()) //Si Lucy se aleja no se puede usar
+        if (other.gameObject.name.Equals("Lucy") ) //Si Lucy se aleja no se puede usar
         {
             usable = false;
             anim.SetBool("seeing", false);

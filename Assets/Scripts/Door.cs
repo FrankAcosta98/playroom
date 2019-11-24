@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Door : MonoBehaviour {
+public class Door : MonoBehaviour
+{
 
     public bool interact = false;
     public GameObject point;
@@ -23,7 +24,7 @@ public class Door : MonoBehaviour {
 
     void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.name.Equals("Lucy") && MainChar.instace.RaycastCheckUpdate())
+        if (collision.gameObject.name.Equals("Lucy"))
         {
             interact = true;
         }
@@ -31,7 +32,7 @@ public class Door : MonoBehaviour {
 
     void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.gameObject.name.Equals("Lucy") || !MainChar.instace.RaycastCheckUpdate())
+        if (collision.gameObject.name.Equals("Lucy"))
         {
             interact = false;
         }

@@ -9,9 +9,9 @@ public class HidePlace : MonoBehaviour
     public Sprite seeing;
     public Sprite notSeeing;
 
-    private bool hiding = false;
+    private bool usable = false;
     private bool hided = false;
-
+    private bool hit = false;
     void Start()
     {
         anim = GetComponent<Animator>();
@@ -21,13 +21,14 @@ public class HidePlace : MonoBehaviour
     void Update()
     {
         // Mientras el jugador este escondido no se mueve hasta volver a oprimir el boton
-        if (hiding == true && Input.GetKeyDown(KeyCode.E))
+        if (usable && Input.GetKeyDown(KeyCode.E))
         {
             anim.SetBool("hiding", true);
             MainChar.instace.GetComponent<BoxCollider2D>().enabled = false;
             MainChar.instace.GetComponent<CircleCollider2D>().enabled = false;
             MainChar.instace.GetComponent<SpriteRenderer>().enabled = false;
             hided = true;
+            MainChar.instace.GetComponent<Transform>().GetChild(0).gameObject.SetActive(false);
             //desactivar luz
         }
 
@@ -38,6 +39,7 @@ public class HidePlace : MonoBehaviour
             MainChar.instace.GetComponent<BoxCollider2D>().enabled = true;
             MainChar.instace.GetComponent<CircleCollider2D>().enabled = true;
             MainChar.instace.GetComponent<SpriteRenderer>().enabled = true;
+            MainChar.instace.GetComponent<Transform>().GetChild(0).gameObject.SetActive(true);
             //desactivar luz
         }
     }
@@ -45,24 +47,23 @@ public class HidePlace : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D other)
     {
         // Al entrar en contacto y interactuan el other se vuelve player y hiding se activa
-        if (other.gameObject.name.Equals("Lucy") && MainChar.instace.RaycastCheckUpdate())
+        if (other.gameObject.name.Equals("Lucy"))
         {
             if (!hided)
             {
                 anim.enabled = false;
             }
-            
-            hiding = true;
+            usable = true;
             this.gameObject.GetComponent<SpriteRenderer>().sprite = seeing;
         }
     }
 
     void OnTriggerExit2D(Collider2D other)
     {
-        if (other.gameObject.name.Equals("Lucy") || !MainChar.instace.RaycastCheckUpdate())
+        if (other.gameObject.name.Equals("Lucy"))
         {
             anim.enabled = true;
-            hiding = false;
+            usable = false;
             hided = false;
             this.gameObject.GetComponent<SpriteRenderer>().sprite = notSeeing;
         }

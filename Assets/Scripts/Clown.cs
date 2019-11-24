@@ -7,38 +7,39 @@ public class Clown : MonoBehaviour
 
     [Header("Components")]
     public BoxCollider2D Range; //Determina el rango de detección
-    public GameObject target = null;
     public GameObject head;
-    public float headSpeed = 1f; //Velocidad de movimiento de la cabeza
-    private Rigidbody2D rb;
-
+    public Animator anim;
+    public GameObject chainLink;
+    //private GameObject[] Chain=new GameObject[7];
     [Header("Vectors")]
-    public Vector2 initialSize = new Vector2(0.1f, 0.1f); //Tamaño inicial
-    public Vector2 maxSize = new Vector2(2f, 2f); //Tamaño máximo
+    public Vector2 initialSize = new Vector2(5.9f, 4f); //Tamaño inicial
+    public Vector2 maxSize = new Vector2(9.23f, 7.41f); //Tamaño máximo
     private Vector2 currentSize; //Tamnaño actual
 
     [Header("Variables")]
     public float growingSpeed = 0.5f; //Velocidad a la que se crece
     public float secondsToAttack = 2f; //Tiempo para tomar acción
+    public float headSpeed = 2.5f; //Velocidad de movimiento de la cabeza
     private float waitToAttack = 0f;
     private bool attacking; //Se ataca
     private bool attacked; //Se atacó
     private bool maxRange; //Determina si se llego al rango maximo
+    
 
     void Start()
     {
+        this.GetComponentInChildren<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeRotation;;
         //Inicializa Valores
-        head = Instantiate(head, this.gameObject.transform.position, Quaternion.identity);
-        rb = GetComponent<Rigidbody2D>();
         Range = GetComponent<BoxCollider2D>();
         initialSize = Range.size;
         currentSize = initialSize;
         attacking = false;
         maxRange = false;
         attacked = false;
+        anim.SetFloat("spd",growingSpeed);
     }
 
-    void FixedUpdate()
+    void Update()
     {
         if (attacking == false) //Si no se está atacando...
         {
@@ -60,12 +61,15 @@ public class Clown : MonoBehaviour
         }
         else if (attacking == true)
         {
+            anim.SetBool("Active",false);
             Attack(); //Se activa el método de ataque
         }
+        
     }
 
     private void Attack()
     {
+        this.GetComponentInChildren<Chain>().reset=false;
         if (secondsToAttack > waitToAttack) //Si los segundos para atacar son mayores al tiempo para esperar..
         {
             waitToAttack += Time.deltaTime; //aumentamos el waitToAttack
@@ -73,9 +77,8 @@ public class Clown : MonoBehaviour
         }
         else //Cuando waitToAttack sea mayor...
         {
-            head.transform.LookAt(target.transform.position); //Vemos al target
-            head.transform.position += head.gameObject.transform.forward * headSpeed * Time.deltaTime; //Nos movemos hacia el target
-            if (Vector2.Distance(target.transform.position, head.transform.position) < 0.1) //Cuando ya estamos cerca
+            head.transform.position=Vector2.MoveTowards(head.transform.position , GameObject.FindGameObjectWithTag("Focus").transform.position , headSpeed * Time.deltaTime); //Nos movemos hacia el target
+            if (Vector2.Distance(GameObject.FindGameObjectWithTag("Focus").transform.position, head.transform.position) <= 0.001) //Cuando ya estamos cerca
             {
                 //Declaramos que ya atacamos y ya no estamos atacando
                 waitToAttack = 0f;
@@ -86,19 +89,20 @@ public class Clown : MonoBehaviour
     }
 
     private void Retreat()
-    {
+    {   
         if (secondsToAttack > waitToAttack) //Si los secondsToAttack son mayores al waitToAttack
         {
             waitToAttack += Time.deltaTime; //Aumentamos waitToAttack
-            Debug.Log(waitToAttack);
+            
         }
         else //En caso contrario
         {
+            anim.SetBool("Active",false);
             //Volvemos a la posición original
-            head.transform.LookAt(this.gameObject.transform.position);
-            head.transform.position += head.gameObject.transform.forward * headSpeed * Time.deltaTime;
-            if (Vector2.Distance(this.gameObject.transform.position, head.transform.position) < 0.1)
+            head.transform.position=Vector2.MoveTowards(head.transform.position , gameObject.transform.position , headSpeed * Time.deltaTime);
+            if (Vector2.Distance(this.gameObject.transform.position, head.transform.position) < 0.001)
             {
+                this.GetComponentInChildren<Chain>().reset=true;
                 waitToAttack = 0f;
                 attacking = false;
                 attacked = false;
@@ -106,11 +110,11 @@ public class Clown : MonoBehaviour
         }
 
     }
-
     #region Range
 
     private void GrowRange() //Metodo para crecer el Collider
     {
+        anim.SetBool("Active",true);
         if (currentSize.x < maxSize.x) //Verificamos si el tamaño actual es menor que el maximo
         {
             currentSize += Vector2.one * growingSpeed * Time.deltaTime; //Lo hacemos crecer conforme al tiempo y velocidad
@@ -126,6 +130,7 @@ public class Clown : MonoBehaviour
 
     private void ReduceRange() //Método para reducir el  tamaño del collider
     {
+        anim.SetBool("Active",true);
         if (currentSize.x > initialSize.x) //Si nuestro tamaño es mayor que el inicial...
         {
             currentSize -= Vector2.one * growingSpeed * Time.deltaTime; //Lo reducimos
@@ -137,6 +142,7 @@ public class Clown : MonoBehaviour
             }
             Range.size = currentSize;
         }
+        
     }
 
     #endregion
@@ -145,17 +151,10 @@ public class Clown : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D prey) //Cuando entras al collider..
     {
-        if (prey.gameObject.tag.Equals("MusicBox") && attacking == false) //Si eres la caja
-        {
-            target = prey.gameObject;
-            Debug.Log("CAJAAAAAA");
-            attacking = true;
-        }
-
         if (prey.gameObject.transform.tag == "detectable" && attacking == false) //Si eres Lucy
         {
-            target = prey.gameObject;
-            Debug.Log("Vivimos en una sociedad");
+            anim.SetBool("Active",false);
+            prey.gameObject.transform.tag="Focus";
             attacking = true;
         }
     }

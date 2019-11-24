@@ -104,26 +104,27 @@ public class MainChar : MonoBehaviour
         rb.MovePosition(rb.position + mvmt.normalized * velocidad * Time.fixedDeltaTime); //Movimiento
     }
 
-    public bool BlockCast() //Este método sirve para revisar la dirección del Raycast y las animaciones
+    public bool RaycastCheckUpdate() //Este método sirve para revisar la dirección del Raycast y las animaciones
     {
         //El tag indica la dirección de la animación
         if (anim.GetCurrentAnimatorStateInfo(0).IsTag("f"))
-        {
             lookAt.Set(transform.position.x, transform.position.y - 3);
-        }
         else if (anim.GetCurrentAnimatorStateInfo(0).IsTag("l"))
-        {
             lookAt.Set(transform.position.x - 3, transform.position.y);
-        }
         else if (anim.GetCurrentAnimatorStateInfo(0).IsTag("r"))
-        {
             lookAt.Set(transform.position.x + 3, transform.position.y);
-        }
         else if (anim.GetCurrentAnimatorStateInfo(0).IsTag("b"))
-        {
             lookAt.Set(transform.position.x, transform.position.y + 3);
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, lookAt);
+        if (hit.collider) //Para verificar la colisión
+        {
+            if (hit.distance <= lookAt.magnitude)
+                return true;
+            else
+                return false;
         }
-
+        else
+            return false;
     }
 
 }

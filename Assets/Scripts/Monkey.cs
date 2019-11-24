@@ -6,6 +6,7 @@ public class Monkey : MonoBehaviour
 {
     [Header("Components")]
     public Collider2D AoE; //Se usa como área de detección para llamar a otros monstruos
+    public Animator anim;
 
     [Header("Variables")]
     public float chill; 
@@ -16,7 +17,7 @@ public class Monkey : MonoBehaviour
 
     void Start()
     {
-
+        anim.GetComponent<Animator>();
     }
 
     void Update()
@@ -30,6 +31,8 @@ public class Monkey : MonoBehaviour
         {
             hmm = false; //Volvemos a calmarnos
             gameObject.transform.tag = "Mono"; //Y volvemos al tag original para que no nos sigan los monstruos
+            anim.SetBool("Focus", false);
+            
         }
 
         if (chilling)
@@ -43,9 +46,15 @@ public class Monkey : MonoBehaviour
         if (prey.gameObject.transform.tag == "detectable" && prey.GetType() == typeof(CircleCollider2D))
         {
             hmm = true;
+            chilling = false;
             //prey.gameObject.GetComponent<Transform>().tag = "detectable";
             chillLevel = chill;
             Debug.Log(prey.gameObject.transform.tag);
+        }
+
+        if(prey.gameObject.transform.tag == "Enemigo" && prey.GetType() == typeof(CircleCollider2D))
+        {
+            prey.gameObject.GetComponent<Boss1>().hmm = true;
         }
     }
 
@@ -59,5 +68,6 @@ public class Monkey : MonoBehaviour
     private void Alarm()
     {
         gameObject.transform.tag = "Focus"; //Se convierte en un objeto al que los monstruos van
+        anim.SetBool("Focus", true);
     }
 }

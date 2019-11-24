@@ -12,10 +12,11 @@ public class HidePlace : MonoBehaviour
     private bool usable = false;
     private bool hided = false;
     private bool hit = false;
+    private bool active;
     void Start()
     {
         anim = GetComponent<Animator>();
-
+        anim.SetBool("hiding", false);
     }
 
     void Update()
@@ -48,17 +49,17 @@ public class HidePlace : MonoBehaviour
         // Al entrar en contacto y interactuan el other se vuelve player y hiding se activa
         if (other.gameObject.name.Equals("Lucy"))
         {
-            usable = true;
             this.gameObject.GetComponent<SpriteRenderer>().sprite = seeing;
+            usable = true;
+
         }
     }
-
     void OnTriggerExit2D(Collider2D other)
     {
         if (other.gameObject.name.Equals("Lucy"))
         {
-            usable = false;
             this.gameObject.GetComponent<SpriteRenderer>().sprite = notSeeing;
+            usable = false;
         }
     }
 }

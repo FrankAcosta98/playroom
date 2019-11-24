@@ -8,7 +8,6 @@ ProjectSettings/
 Temp/
 Packages/
 Assets/Sounds
-Assets/
 Assets/Sprites
 Assets/UI
 Assets/2D-RP
@@ -17,8 +16,4 @@ Assets/Escenario
 Assets/Escenario_Ensamble
 Assets/Prefabs
 Assets/Scenes
-Assets/Scripts/hooks
-Assets/Scripts/info
-Assets/Scripts/objects
-Assets/Scripts/refs
 Assembly-CSharp.csproj

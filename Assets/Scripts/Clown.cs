@@ -9,7 +9,6 @@ public class Clown : MonoBehaviour
     public BoxCollider2D Range; //Determina el rango de detección
     public GameObject head;
     public Animator anim;
-    public GameObject chainLink;
     //private GameObject[] Chain=new GameObject[7];
     [Header("Vectors")]
     public Vector2 initialSize = new Vector2(5.9f, 4f); //Tamaño inicial
@@ -69,11 +68,9 @@ public class Clown : MonoBehaviour
 
     private void Attack()
     {
-        this.GetComponentInChildren<Chain>().reset=false;
         if (secondsToAttack > waitToAttack) //Si los segundos para atacar son mayores al tiempo para esperar..
         {
             waitToAttack += Time.deltaTime; //aumentamos el waitToAttack
-            Debug.Log(waitToAttack);
         }
         else //Cuando waitToAttack sea mayor...
         {
@@ -97,12 +94,15 @@ public class Clown : MonoBehaviour
         }
         else //En caso contrario
         {
-            anim.SetBool("Active",false);
+            anim.SetBool("Active", false);
             //Volvemos a la posición original
-            head.transform.position=Vector2.MoveTowards(head.transform.position , gameObject.transform.position , headSpeed * Time.deltaTime);
-            if (Vector2.Distance(this.gameObject.transform.position, head.transform.position) < 0.001)
+            head.transform.position = Vector2.MoveTowards(head.transform.position, gameObject.transform.position, headSpeed * Time.deltaTime);
+            for (int i = 2; i < 9; i++) {
+                Debug.Log(i);
+                Vector2.MoveTowards(transform.GetChild(i).transform.position, transform.GetChild(1).transform.position, headSpeed * Time.deltaTime);
+        }
+        if (Vector2.Distance(this.gameObject.transform.position, head.transform.position) < 0.001)
             {
-                this.GetComponentInChildren<Chain>().reset=true;
                 waitToAttack = 0f;
                 attacking = false;
                 attacked = false;

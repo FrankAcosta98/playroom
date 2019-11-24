@@ -34,7 +34,6 @@ public class Head : MonoBehaviour
     {
         if (prey.gameObject.name == "Lucy") //Si se mantiene sobre Lucy en estado de Focus..
         {
-            Debug.Log("Ya te cargo el payaso");
             IsLucy=true;
             //Destroy(prey.gameObject); //Se podrá destruir el objeto de Lucy
             //Recordar agregar animador

@@ -8,25 +8,23 @@ public class MusicBox : MonoBehaviour
     public float movSpeed = 0.3f; //Tiempo que tarda en llegar a su destino
     private Rigidbody2D rb;
     private bool pickUpAllowed; //Determina si se puede levantar la caja
-    public bool grabbed; //Determina si ya se levantó la caja
-    public float detectRad; //Areá del trigger para atraer monstruos
+    private bool grabbed; //Determina si ya se levantó la caja
     public Collider2D hitbox; //El collider normal
     public CircleCollider2D aoe;
     //public CircleCollider2D detectArea; 
     public float charge = 0.4f; //Tiempo para preparar la caja
     public float batery = 5f; //El tiempo que "suena" la caja
-    public float charging; //Para determinar cuanto tiempo ya pasó
-    public bool charged = false; //Determina si ya se cargó o no
+    private float charging; //Para determinar cuanto tiempo ya pasó
+    private bool charged = false; //Determina si ya se cargó o no
     //private float throwD = 5f; //Distancia a la que se puede lanzar
     public bool throwed;
     public GameObject Lucy;
-
-    public bool hasDirection; //metodo 3
-    public float distanceToMove;
-    [SerializeField]
+    public float detecArea = 4f;
+    private bool hasDirection; //metodo 3
+    private float distanceToMove;
     private Vector2 direction; //metodo 3
     private bool posReached;
-
+    private float dist;
 
 
     private void Start()
@@ -36,10 +34,9 @@ public class MusicBox : MonoBehaviour
         rb = this.GetComponent<Rigidbody2D>();
         //detectArea.enabled = false;
         throwed = false;
-        charged = false;
-        hasDirection = false; //metodo 3
+        charged = false; //metodo 3
         posReached = false;
-        GetComponent<CircleCollider2D>().= false;
+        aoe.radius = 0f;
     }
 
     private void Update()
@@ -49,10 +46,10 @@ public class MusicBox : MonoBehaviour
             batery -= Time.deltaTime; //La batería comienza a reducirse con el tiempo
         if (batery <= 0) //Cuando la batería es igual o menor a 0..
             Destroy(gameObject); //La caja se destruye
-
-        if (hasDirection)
+        if (dist < distanceToMove)
         {
             transform.position = Vector2.MoveTowards(transform.position, direction, movSpeed * Time.deltaTime); //metodo3
+            dist++;
         }
 
     }
@@ -96,8 +93,7 @@ public class MusicBox : MonoBehaviour
         pickUpAllowed = false;
         this.tag = "detectable";
         this.gameObject.GetComponent<SpriteRenderer>().enabled = true;
-        Direction();
-        hasDirection = true; //Metodo 3
+        Direction(); //Metodo 3
         StartCoroutine(activeHitbox());
         throwed = true;
 
@@ -164,12 +160,12 @@ public class MusicBox : MonoBehaviour
         if (collision.name.Equals("Lucy"))
         {
             pickUpAllowed = false;
-            Lucy = null;
         }
 
         if (collision.name.Equals("Lucy") && throwed == true)
         {
             hitbox.enabled = true;
+            aoe.radius = detecArea;
         }
 
     }

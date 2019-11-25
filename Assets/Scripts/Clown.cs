@@ -23,7 +23,8 @@ public class Clown : MonoBehaviour
     private bool attacking; //Se ataca
     private bool attacked; //Se atacó
     private bool maxRange; //Determina si se llego al rango maximo
-
+    public float atakRange = 5f;
+    private bool stop = false;
 
     void Start()
     {
@@ -74,13 +75,18 @@ public class Clown : MonoBehaviour
         }
         else //Cuando waitToAttack sea mayor...
         {
-            head.transform.position = Vector2.MoveTowards(head.transform.position, GameObject.FindGameObjectWithTag("Focus").transform.position, headSpeed * Time.deltaTime); //Nos movemos hacia el target
-            if (Vector2.Distance(GameObject.FindGameObjectWithTag("Focus").transform.position, head.transform.position) <= 0.001) //Cuando ya estamos cerca
+            if (Vector2.Distance(head.transform.position, transform.position) <= atakRange)
+            {
+                head.transform.position = Vector2.MoveTowards(head.transform.position, GameObject.FindGameObjectWithTag("Focus").transform.position, headSpeed * Time.deltaTime); //Nos movemos hacia el target
+                stop = true;
+        }
+            if (Vector2.Distance(GameObject.FindGameObjectWithTag("Focus").transform.position, head.transform.position) <= 0.001||stop)//Cuando ya estamos cerca
             {
                 //Declaramos que ya atacamos y ya no estamos atacando
                 waitToAttack = 0f;
                 attacking = false;
                 attacked = true;
+                stop = false;
             }
         }
     }

@@ -25,7 +25,6 @@ public class MusicBox : MonoBehaviour
     public float distanceToMove;
     [SerializeField]
     private Vector2 direction; //metodo 3
-    private bool posReached;
 
 
 
@@ -39,7 +38,6 @@ public class MusicBox : MonoBehaviour
         throwed = false;
         charged = false;
         hasDirection = false; //metodo 3
-        posReached = false;
     }
 
     private void Update()
@@ -190,7 +188,6 @@ public class MusicBox : MonoBehaviour
         if (throwed)
         {
             if(collision.name != "Lucy" && collision.name != "Teddy"){
-                Debug.Log(collision.name);
                 hasDirection = false;
             }
         }

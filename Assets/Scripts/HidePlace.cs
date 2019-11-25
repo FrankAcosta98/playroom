@@ -11,8 +11,6 @@ public class HidePlace : MonoBehaviour
 
     private bool usable = false;
     private bool hided = false;
-    private bool hit = false;
-    private bool active;
     void Start()
     {
         anim = GetComponent<Animator>();

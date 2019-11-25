@@ -32,16 +32,18 @@ public class Head : MonoBehaviour
     }
     void OnTriggerEnter2D(Collider2D prey)
     {
-        if (prey.gameObject.name == "Lucy") //Si se mantiene sobre Lucy en estado de Focus..
+        if (prey.gameObject.transform.tag == "Focus" && prey.gameObject.name!="Lucy")
+        {
+            IsBox = true;
+            Destroy(prey.gameObject);
+        }
+        
+        else if (prey.gameObject.name == "Lucy") //Si se mantiene sobre Lucy en estado de Focus..
         {
             IsLucy=true;
-            //Destroy(prey.gameObject); //Se podrá destruir el objeto de Lucy
-            //Recordar agregar animador
+            //cambio de escena a game ova
         }
-        else if (prey.gameObject.transform.tag == "Focus"){
-            IsBox=true;
-            Destroy(prey.gameObject);
-            }
+        
     }
     void OnTriggerExit2D(Collider2D other)
     {

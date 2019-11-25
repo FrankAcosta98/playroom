@@ -13,7 +13,7 @@ public class MainChar : MonoBehaviour
     public float velocidad; //velocidad original
     public Rigidbody2D rb;
     protected Vector2 mvmt; //Indica la dirección del movimiento
-    protected Vector2 lookAt; //Indica a donde verá el sprite
+    public Vector2 lookAt; //Indica a donde verá el sprite
     public Animator anim;
     public bool hasKey = false;
     public float dashVel; //Velocidad al correr
@@ -22,7 +22,7 @@ public class MainChar : MonoBehaviour
     private bool isDown;
     private bool isUp;
     private float vel; //Velocidad dinámica
-    private float dashT;
+    private float dashT; 
     public float dashDur; //Duración del dash
     private bool dash = true;
     private float dashChg; //Sirve para medir cuando ya haya pasado el cooldown
@@ -44,29 +44,20 @@ public class MainChar : MonoBehaviour
     {
         //Determina si se está moviendo o no
         mvmt.Set(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
-
-        //Se mide la carga del Dash
-        dashChg += Time.deltaTime;
-        if (Input.GetKeyDown(KeyCode.Space) && dash && dashChg >= dashC && hasBox == false)
-        {
-            if (transform.GetChild(0).gameObject.activeSelf == false)
-            {
-                velocidad = vel * dashVel; //La velocidad aumenta
-                dashChg = 0.0f; //Y la carga se vuelve 0
-            }
-            else if (GetComponentInChildren<TeddyStates>().Holded == false)
-            {
-                velocidad = vel * dashVel; //La velocidad aumenta
-                dashChg = 0.0f; //Y la carga se vuelve 0
-            }
-        }
-    }
-    void FixedUpdate()
-    {
         if (mvmt.x != 0 || mvmt.y != 0)
             isMov = true;
         else
             isMov = false;
+        //debug para cargar la ultima posicion
+        /*if (Input.GetKeyDown(KeyCode.P))
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+            this.transform.position = Save.lastCheckPoint;
+            if(Input.GetKeyDown(KeyCode.E))
+                RaycastCheckUpdate();
+        }*/
+
+
         //Se determina para donde se mueve y que Animador llamará
         if (Input.GetAxisRaw("Horizontal") != 0 && Input.GetAxisRaw("Vertical") > 0)
         {
@@ -82,6 +73,11 @@ public class MainChar : MonoBehaviour
         }
         else
             isDown = false;
+        //Se mide la carga del Dash
+        dashChg += Time.deltaTime;
+    }
+    void FixedUpdate()
+    {
         if (isDown == false)
             anim.SetFloat("Ver", mvmt.y);
         if (isUp == false)
@@ -91,11 +87,15 @@ public class MainChar : MonoBehaviour
         anim.SetBool("hasBox", hasBox);
         anim.SetBool("isMov", isMov);
         //Si se apreta Space y se puede dashear; y si la carga de Dash es mayor al cooldown; y si no se tiene caja ni se mantiene cargado a Teddy...
-
+        if (Input.GetKeyDown(KeyCode.Space) && dash && dashChg >= dashC && hasBox == false && GetComponentInChildren<TeddyStates>().Holded == false)
+        {
+            velocidad = vel * dashVel; //La velocidad aumenta
+            dashChg = 0.0f; //Y la carga se vuelve 0
+        }
         if (dashT > dashDur) //Si el tiempo con Dash se vuelve mayor a la duración..
         {
             dashT = 0; //El tiempo de dash se queda en 0
-            dash = false;
+            dash = false; 
             velocidad = vel; //Velocidad base
         }
         if (dashT < dashDur) //Si el tiempo con Dash es menor a la duración..
@@ -116,6 +116,7 @@ public class MainChar : MonoBehaviour
         else if (anim.GetCurrentAnimatorStateInfo(0).IsTag("b"))
             lookAt.Set(transform.position.x, transform.position.y + 3);
         RaycastHit2D hit = Physics2D.Raycast(transform.position, lookAt);
+        Debug.DrawLine(transform.position, lookAt); //Al momento la linea es visible para testeo, se removerá en las versiones siguientes
         if (hit.collider) //Para verificar la colisión
         {
             if (hit.distance <= lookAt.magnitude)

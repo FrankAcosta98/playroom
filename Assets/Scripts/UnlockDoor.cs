@@ -22,18 +22,10 @@ public class UnlockDoor : MonoBehaviour
     void OnTriggerEnter2D(Collider2D other)
     {
         //Determina si Lucy esta colisionando con la puerta y si está viendo hacia la puerta
-        if (other.gameObject.name.Equals("Lucy"))
+        if (other.gameObject.name.Equals("Lucy") && other.gameObject.GetComponent<MainChar>().RaycastCheckUpdate())
         {
             //Se determina que la puerta es usable
             usable = true;
-        }
-    }
-    void OnTriggerExit2D(Collider2D other)
-    {
-        if (other.gameObject.name.Equals("Lucy"))
-        {
-            //Se determina que la puerta es usable
-            usable = false;
         }
     }
 }

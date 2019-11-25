@@ -75,18 +75,18 @@ public class Clown : MonoBehaviour
         }
         else //Cuando waitToAttack sea mayor...
         {
-            if (Vector2.Distance(head.transform.position, transform.position) <= atakRange)
-            {
+            //if (Vector2.Distance(head.transform.position, transform.position) <= atakRange)
+            //{
                 head.transform.position = Vector2.MoveTowards(head.transform.position, GameObject.FindGameObjectWithTag("Focus").transform.position, headSpeed * Time.deltaTime); //Nos movemos hacia el target
-                stop = true;
-        }
-            if (Vector2.Distance(GameObject.FindGameObjectWithTag("Focus").transform.position, head.transform.position) <= 0.001||stop)//Cuando ya estamos cerca
+                //stop = true;
+        //}
+            if (Vector2.Distance(GameObject.FindGameObjectWithTag("Focus").transform.position, head.transform.position) <= 0.001/*||stop*/)//Cuando ya estamos cerca
             {
                 //Declaramos que ya atacamos y ya no estamos atacando
                 waitToAttack = 0f;
                 attacking = false;
                 attacked = true;
-                stop = false;
+                //stop = false;
             }
         }
     }

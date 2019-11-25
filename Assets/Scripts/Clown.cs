@@ -18,7 +18,7 @@ public class Clown : MonoBehaviour
     [Header("Variables")]
     public float growingSpeed = 0.5f; //Velocidad a la que se crece
     public float secondsToAttack = 2f; //Tiempo para tomar acción
-    public float headRange = 2.5f; //Velocidad de movimiento de la cabeza
+    public float headSpeed = 2.5f; //Velocidad de movimiento de la cabeza
     private float waitToAttack = 0f;
     private bool attacking; //Se ataca
     private bool attacked; //Se atacó
@@ -74,8 +74,8 @@ public class Clown : MonoBehaviour
         }
         else //Cuando waitToAttack sea mayor...
         {
-            head.transform.position = Vector2.MoveTowards(head.transform.position, GameObject.FindGameObjectWithTag("Focus").transform.position, headRange ); //Nos movemos hacia el target
-            if (Vector2.Distance(GameObject.FindGameObjectWithTag("Focus").transform.position, head.transform.position) <= 0.001f) //Cuando ya estamos cerca
+            head.transform.position = Vector2.MoveTowards(head.transform.position, GameObject.FindGameObjectWithTag("Focus").transform.position, headSpeed * Time.deltaTime); //Nos movemos hacia el target
+            if (Vector2.Distance(GameObject.FindGameObjectWithTag("Focus").transform.position, head.transform.position) <= 0.001) //Cuando ya estamos cerca
             {
                 //Declaramos que ya atacamos y ya no estamos atacando
                 waitToAttack = 0f;
@@ -96,7 +96,7 @@ public class Clown : MonoBehaviour
         {
             anim.SetBool("Active", false);
             //Volvemos a la posición original
-            head.transform.position = Vector2.MoveTowards(head.transform.position, gameObject.transform.position, headRange );
+            head.transform.position = Vector2.MoveTowards(head.transform.position, gameObject.transform.position, headSpeed * Time.deltaTime);
             vamonos(true);
             if (Vector2.Distance(this.gameObject.transform.position, head.transform.position) < 0.001)
             {
@@ -164,7 +164,7 @@ public class Clown : MonoBehaviour
         if (si)
         {
             for (int i = 2; i < 9; i++)
-                transform.GetChild(i).transform.position = Vector2.MoveTowards(transform.GetChild(i).transform.position, transform.GetChild(1).transform.position, headRange );
+                transform.GetChild(i).transform.position = Vector2.MoveTowards(transform.GetChild(i).transform.position, transform.GetChild(1).transform.position, headSpeed * Time.deltaTime);
         }
     }
 }

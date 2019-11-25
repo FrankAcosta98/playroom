@@ -1,16 +1,15 @@
-﻿using System.Threading;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class MusicBox : MonoBehaviour
 {
-    public float movSpeed = 0.3f; //Tiempo que tarda en llegar a su destino
+    public float movSpeed = 3f; //Tiempo que tarda en llegar a su destino
     private Rigidbody2D rb;
     private bool pickUpAllowed; //Determina si se puede levantar la caja
     public bool grabbed; //Determina si ya se levantó la caja
     public CircleCollider2D grab; //Areá para agarrarlo
-    public float grabRad; //Areá del trigger para levantar la caja
+    public float grabRad=0f; //Areá del trigger para levantar la caja
     public float detectRad; //Areá del trigger para atraer monstruos
     public Collider2D hitbox; //El collider normal
     //public CircleCollider2D detectArea; 
@@ -65,6 +64,8 @@ public class MusicBox : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if(throwed&&hasDirection==false)
+            grab.radius = detectRad;
         if (grabbed && throwed == false)
         {
             this.transform.position = Lucy.transform.position;
@@ -98,14 +99,12 @@ public class MusicBox : MonoBehaviour
 
         //detectArea.enabled = true;
         //grab.enabled = false;
-        grab.radius = detectRad;
         grabbed = false;
         pickUpAllowed = false;
         this.tag = "detectable";
         this.gameObject.GetComponent<SpriteRenderer>().enabled = true;
         Direction();
         hasDirection = true; //Metodo 3
-        StartCoroutine(activeHitbox());
         throwed = true;
         //Vector2 temp = new Vector2(Lucy.GetComponent<Animator>().GetFloat("Hor"), Lucy.GetComponent<Animator>().GetFloat("Ver")); //Parte del método 1 de Roli
         //Setup(temp, BoxDirection()); //Parte del método 1 de Roli
@@ -127,11 +126,6 @@ public class MusicBox : MonoBehaviour
         */
     }
 
-    IEnumerator activeHitbox()
-    {
-        yield return new WaitForSecondsRealtime(1.0f);
-        hitbox.enabled = true;
-    }
 
     private void Direction() //Metodo 3
     {
@@ -192,6 +186,13 @@ public class MusicBox : MonoBehaviour
         {
             pickUpAllowed = true;
             Lucy = collision.gameObject;
+        }
+        if (throwed)
+        {
+            if(collision.name != "Lucy" && collision.name != "Teddy"){
+                Debug.Log(collision.name);
+                hasDirection = false;
+            }
         }
         /*
                 if (collision.name.Equals("Lucy") && throwed==true && posReached == true)

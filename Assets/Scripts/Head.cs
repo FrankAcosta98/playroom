@@ -25,7 +25,8 @@ public class Head : MonoBehaviour
             anim.SetBool("IsLucy", IsLucy);
         if (IsBox) 
         anim.SetBool("IsBox", IsBox);
-        if(anim.GetCurrentAnimatorStateInfo(0).)
+        if(anim.GetCurrentAnimatorStateInfo(0).IsName("JackMiss"))
+            Destroy(GameObject.FindGameObjectWithTag("Focus"));
         if (IsLucy == false && IsBox == false)
         {
             anim.SetBool("IsBox", IsBox);
@@ -38,7 +39,6 @@ public class Head : MonoBehaviour
         if (prey.gameObject.transform.tag == "Focus" && prey.gameObject.name != "Lucy")
         {
             IsBox = true;
-            Destroy(prey.gameObject);
         }
 
         else if (prey.gameObject.name == "Lucy") //Si se mantiene sobre Lucy en estado de Focus..

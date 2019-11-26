@@ -38,6 +38,7 @@ public class HidePlace : MonoBehaviour
             MainChar.instace.GetComponent<SpriteRenderer>().enabled = true;
             MainChar.instace.GetComponent<Transform>().GetChild(0).gameObject.SetActive(true);
             hided = false;
+            MainChar.instace.GetComponent<Transform>().tag = "detectable";
             //desactivar luz
         }
     }

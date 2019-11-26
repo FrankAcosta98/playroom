@@ -23,13 +23,15 @@ public class Head : MonoBehaviour
     {
         if (IsLucy)
             anim.SetBool("IsLucy", IsLucy);
-        else if (IsBox)
-            anim.SetBool("IsBox", IsBox);
+        if (IsBox) 
+        anim.SetBool("IsBox", IsBox);
+        if(anim.GetCurrentAnimatorStateInfo(0).)
         if (IsLucy == false && IsBox == false)
         {
             anim.SetBool("IsBox", IsBox);
             anim.SetBool("IsLucy", IsLucy);
         }
+        Debug.Log(IsBox);
     }
     void OnTriggerEnter2D(Collider2D prey)
     {
@@ -44,7 +46,6 @@ public class Head : MonoBehaviour
             IsLucy = true;
             //cambio de escena a game ova
         }
-
     }
     void OnTriggerExit2D(Collider2D other)
     {

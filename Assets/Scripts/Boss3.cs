@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+//en vgez de destruir hay que spawnear
 public class Boss3 : MonoBehaviour {
 
     [Header("Components")]
@@ -18,12 +18,11 @@ public class Boss3 : MonoBehaviour {
     public float cooldown; //Tiempo para cambiar
     public bool hmm = false; //Booleano que define si detecto al jugador
     public float chill; //Tiempo para regresar a chilling
-
+    private int vuelta = 1;
     [Header("Puntos")]
     public Transform[] points; //Arreglo de puntos a los que se moverá
-
     GameObject[] boxes;
-    private int fase;
+    private int fase=0;
     private int Cpoint = 0; //Indice de puntos
     private float wait; //Tiempo de espera
     private bool chilling = false; //Esta descansando
@@ -46,6 +45,7 @@ public class Boss3 : MonoBehaviour {
         anim = this.GetComponent<Animator>();
         rb.constraints = RigidbodyConstraints2D.FreezeRotation;
         chillLevel = chill;
+        Physics2D.IgnoreCollision(spawnZone, GameObject.FindGameObjectWithTag("detectable").GetComponent<CircleCollider2D>());
         dir = new Vector2(this.gameObject.transform.position.y, this.gameObject.transform.position.x).normalized;
     }
 
@@ -81,13 +81,15 @@ public class Boss3 : MonoBehaviour {
             chillLevel -= Time.deltaTime; //Se reduce
         }
 
-        if (Vector2.Distance(transform.position, points[2].position) < 0.1f && anim.GetBool("Spawn") == false)
+        if (Vector2.Distance(transform.position, points[2].position) < 0.1f)
         {
+
             Punch();
             ChangeFase();
+            vuelta++;
         }
 
-        if (Vector2.Distance(transform.position, points[2].position) > 0.1f && anim.GetBool("Spawn") == true)
+        if (anim.GetCurrentAnimatorStateInfo(0).IsName("Moloch_Attack"))
         {
             anim.SetBool("Spawn", false);
         }
@@ -101,9 +103,11 @@ public class Boss3 : MonoBehaviour {
     private void Erased()
     {
         anim.SetBool("Fire", true);
-        for(int i = 0; i< boxes.Length; i++)
-        {
-            Destroy(GameObject.FindGameObjectWithTag("Box"));
+        if (GameObject.FindGameObjectWithTag("Box") != null) {
+            if (MainChar.instace.GetComponent<SpriteRenderer>().isVisible == false) { }
+                //game ova
+            for(int i=0;i<boxes.Length;i++)
+            Destroy(GameObject.FindGameObjectsWithTag("Box")[i]);
         }
         anim.SetBool("Fire", false);
         spawned = false;
@@ -182,23 +186,30 @@ public class Boss3 : MonoBehaviour {
 
     private void Punch()
     {
+
         anim.SetBool("Spawn", true);
         while (usedValues.Count < boxes.Length)
         {
             //spawnear cosas random en el Vect2 area
             boxes[usedValues.Count] = Instantiate(box, RandomPosition(), Quaternion.identity);
         }
-      
+        Vector2 position;
         if (fase == 3)
         {
             Instantiate(key, RandomPosition(), Quaternion.identity);
             fase = 0; //para que de 2 osea la ultima fase se repite
         }
+        usedValues = new List<Vector2>();
     }
 
     void ChangeFase()
     {
         fase++;
+        if(vuelta%2)
+            Erased();
+
+
+
         switch (fase)
         {
             case 1:
@@ -206,17 +217,16 @@ public class Boss3 : MonoBehaviour {
                 break;
 
             case 2:
-                Erased();
+                
                 boxes = new GameObject[5];
                 
                 break;
 
             case 3:
+                
                 boxes = new GameObject[6];
-                Erased();
                 break;
         }
-
     }
 
     private Vector2 RandomPosition()

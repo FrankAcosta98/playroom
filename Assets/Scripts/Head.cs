@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.SceneManagement;
 public class Head : MonoBehaviour
 {
     [HideInInspector]//no se toca
@@ -23,10 +23,12 @@ public class Head : MonoBehaviour
     {
         if (IsLucy)
             anim.SetBool("IsLucy", IsLucy);
-        if (IsBox) 
-        anim.SetBool("IsBox", IsBox);
-        if(anim.GetCurrentAnimatorStateInfo(0).IsName("JackMiss"))
+        if (IsBox)
+            anim.SetBool("IsBox", IsBox);
+        if (anim.GetCurrentAnimatorStateInfo(0).IsName("JackMiss"))
             Destroy(GameObject.FindGameObjectWithTag("Focus"));
+        if (anim.GetCurrentAnimatorStateInfo(0).IsName("JackAttack"))
+            SceneManager.LoadScene("DeathScene");
         if (IsLucy == false && IsBox == false)
         {
             anim.SetBool("IsBox", IsBox);

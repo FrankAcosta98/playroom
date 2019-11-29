@@ -9,7 +9,7 @@ public class MusicBox : MonoBehaviour
     private bool pickUpAllowed; //Determina si se puede levantar la caja
     public bool grabbed; //Determina si ya se levantó la caja
     public CircleCollider2D grab; //Areá para agarrarlo
-    public float grabRad=0f; //Areá del trigger para levantar la caja
+    public float grabRad = 0f; //Areá del trigger para levantar la caja
     public float detectRad; //Areá del trigger para atraer monstruos
     public Collider2D hitbox; //El collider normal
     //public CircleCollider2D detectArea; 
@@ -62,7 +62,7 @@ public class MusicBox : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if(throwed&&hasDirection==false)
+        if (throwed && hasDirection == false)
             grab.radius = detectRad;
         if (grabbed && throwed == false)
         {
@@ -129,27 +129,19 @@ public class MusicBox : MonoBehaviour
     {
         if ((Lucy.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsTag("f")))
         {
-
             direction = new Vector2(this.transform.position.x, (this.transform.position.y - distanceToMove));
-
         }
         else if (Lucy.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsTag("l"))
         {
-
             direction = new Vector2((this.transform.position.x - distanceToMove), this.transform.position.y);
-
         }
         else if (Lucy.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsTag("r"))
         {
-
             direction = new Vector2((this.transform.position.x + distanceToMove), this.transform.position.y);
-
         }
         else if (Lucy.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsTag("b"))
         {
-
             direction = new Vector2(this.transform.position.x, (this.transform.position.y + distanceToMove));
-
         }
     }
 
@@ -187,7 +179,8 @@ public class MusicBox : MonoBehaviour
         }
         if (throwed)
         {
-            if(collision.name != "Lucy" && collision.name != "Teddy"){
+            if (collision.name != "Lucy" && collision.name != "Teddy")
+            {
                 hasDirection = false;
             }
         }

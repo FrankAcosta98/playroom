@@ -205,7 +205,7 @@ public class Boss3 : MonoBehaviour {
     void ChangeFase()
     {
         fase++;
-        if(vuelta%2)
+        if(vuelta%2==2)
             Erased();
 
 

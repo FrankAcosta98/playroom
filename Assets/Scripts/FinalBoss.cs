@@ -6,7 +6,7 @@ public class FinalBoss : MonoBehaviour
 {
     [Header("Components")]
     public Animator anim; //Animator
-    public GameObject[] Boxes=new GameObject[6];
+    public GameObject[] Boxes = new GameObject[6];
     public GameObject key;
     public CircleCollider2D detect; //Detección de Lucy
     public Rigidbody2D rb; //Un clasico
@@ -28,7 +28,7 @@ public class FinalBoss : MonoBehaviour
     private bool next = true;
     void Start()
     {
-        
+
         wait = cooldown;
         transform.position = points[Cpoint].transform.position;
         rb = this.GetComponent<Rigidbody2D>();
@@ -49,7 +49,7 @@ public class FinalBoss : MonoBehaviour
         if (hmm)
         {
             Hunt(); //Se llama el método Hunt cuando se entra en estado de hmm
-            
+
         }
         else //Si no se está en hmm se sigue moviendo
         {
@@ -68,7 +68,7 @@ public class FinalBoss : MonoBehaviour
             chillLevel -= Time.deltaTime; //Se reduce
         }
 
-        if (Cpoint==2&&next)
+        if (Cpoint == 2 && next)
         {
             Punch();
         }
@@ -89,7 +89,6 @@ public class FinalBoss : MonoBehaviour
             hmm = true; //El boss entra en hmm
             prey.gameObject.tag = "Focus"; //Te vuelves un focus
             chillLevel = chill; //Se empieza el chill
-           
         }
     }
 
@@ -136,9 +135,6 @@ public class FinalBoss : MonoBehaviour
 
     private void Punch()
     {
-
-        
-
         if (fase == 0)
         {
             anim.SetBool("Spawn", true);
@@ -154,7 +150,6 @@ public class FinalBoss : MonoBehaviour
             for (int i = 0; i < 6; i++)
                 Boxes[i].SetActive(false);
         }
-
         if (fase == 2)
         {
             anim.SetBool("Spawn", true);
@@ -170,14 +165,12 @@ public class FinalBoss : MonoBehaviour
             for (int i = 0; i < 6; i++)
                 Boxes[i].SetActive(false);
         }
-
         if (fase == 4)
         {
             anim.SetBool("Spawn", true);
             for (int i = 0; i < 6; i++)
                 Boxes[i].SetActive(true);
             key.SetActive(true);
-
         }
         if (fase == 5)
         {

@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.SceneManagement;
 public class KillZone : MonoBehaviour
 {
     //El codigo se utiliza para determinar si el Boss mata a Lucy
@@ -27,7 +27,7 @@ public class KillZone : MonoBehaviour
         }
         else if (prey.gameObject.name == "Lucy")
         {
-            
+            SceneManager.LoadScene("DeathScene");
         }
     }
 }

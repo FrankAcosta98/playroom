@@ -10,7 +10,7 @@ public class Checkpoint : MonoBehaviour
     Scene scene; //Escena actual, se usa su nombre
     public Collider2D box; //Collider de colision
     public Collider2D area; //Collider de trigger
-    
+
 
 
     void Start()
@@ -22,7 +22,8 @@ public class Checkpoint : MonoBehaviour
     void Update()
     {
         //Si el jugador interactua
-        if (SaveAllowed == true && Input.GetKeyDown(KeyCode.E)) {
+        if (SaveAllowed == true && Input.GetKeyDown(KeyCode.E))
+        {
             //Se guarda el valor de la posicion x y y de Lucy en ese momento
             PlayerPrefs.SetString("Guardado", "True");
             PlayerPrefs.SetFloat("ValorX", player.transform.position.x);
@@ -38,14 +39,12 @@ public class Checkpoint : MonoBehaviour
             Debug.Log("Ya lo guarde we");
             Debug.Log(PlayerPrefs.GetFloat("ValorX").ToString());
             Debug.Log(PlayerPrefs.GetFloat("ValorY").ToString());
-
-        } 
-
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision) //Cuando se entre en una collision...
     {
-        if (collision.gameObject.name.Equals("Lucy") ) //Si es Lucy y el Raycast apunta a la caja de guardado...
+        if (collision.gameObject.name.Equals("Lucy")) //Si es Lucy y el Raycast apunta a la caja de guardado...
         {
             SaveAllowed = true; //Se permite levantarlo
             player = collision.gameObject;
@@ -58,6 +57,6 @@ public class Checkpoint : MonoBehaviour
             SaveAllowed = false; //No se permite levantar
         }
     }
-    
+
 
 }
